@@ -6,8 +6,10 @@ export const load = config => ({
 });
 
 export const startLoad = () => {
-  return () => {
-    return getConfiguration();
+  return (dispatch, getState) => {
+    return getConfiguration().then(config => {
+      return dispatch(load(config));
+    });
   };
 };
 

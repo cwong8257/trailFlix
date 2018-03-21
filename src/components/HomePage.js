@@ -1,9 +1,58 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from 'material-ui/styles';
+import MostPopularTab from './MostPopularTab';
+import AppBar from 'material-ui/AppBar';
+import Tabs, { Tab } from 'material-ui/Tabs';
+import Typography from 'material-ui/Typography';
 
-class HomePage extends React.Component {
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper
+  }
+});
+
+class SimpleTabs extends React.Component {
+  state = {
+    value: 0
+  };
+
+  handleChange = (event, value) => {
+    this.setState({ value });
+  };
+
   render() {
-    return <div>Dashboard page content</div>;
+    const { classes } = this.props;
+    const { value } = this.state;
+
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Tabs value={value} onChange={this.handleChange}>
+            <Tab label="Most Popular" />
+            <Tab label="Upcoming" />
+            <Tab label="Top Rated" />
+          </Tabs>
+        </AppBar>
+        {value === 0 && (
+          <TabContainer>
+            <MostPopularTab />
+          </TabContainer>
+        )}
+        {value === 1 && <TabContainer>Item Two</TabContainer>}
+        {value === 2 && <TabContainer>Item Three</TabContainer>}
+      </div>
+    );
   }
 }
 
-export default HomePage;
+export default withStyles(styles)(SimpleTabs);

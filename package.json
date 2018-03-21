@@ -24,7 +24,9 @@
     "css-loader": "0.28.4",
     "express": "4.15.4",
     "extract-text-webpack-plugin": "3.0.0",
+    "file-loader": "^1.1.11",
     "history": "4.7.2",
+    "material-ui": "^1.0.0-beta.38",
     "moment": "2.18.1",
     "node-sass": "4.5.3",
     "normalize.css": "7.0.0",
@@ -42,6 +44,8 @@
     "redux-thunk": "2.2.0",
     "sass-loader": "6.0.6",
     "style-loader": "0.18.2",
+    "typeface-roboto": "^0.0.54",
+    "url-loader": "^1.0.1",
     "uuid": "3.1.0",
     "validator": "8.0.0",
     "webpack": "3.1.0"

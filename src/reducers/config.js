@@ -2,7 +2,7 @@ export default (state = {}, action) => {
   switch (action.type) {
     case 'LOAD':
       return {
-        uid: action.uid
+        ...action.config
       };
     case 'UNLOAD':
       return {};

@@ -1,197 +1,114 @@
-getMovieTrailer = id => {
-  return fetch(
-    'https://api.themoviedb.org/3/movie/' + id + '/videos?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
+const key = process.env.TMDB_API_KEY;
+
+export const getMovieTrailer = id => {
+  return fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
+    function(response) {
       return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+    }
+  );
 };
 
-getMovieCredits = id => {
-  return fetch('https://api.themoviedb.org/3/movie/' + id + '/credits?api_key=df14d9ac8a66811c0dde927cc1ce36c6', {
+export const getMovieCredits = id => {
+  return fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${key}`, {
     mode: 'cors'
-  })
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+  }).then(function(response) {
+    return response.json();
+  });
 };
 
-getSimilar = id => {
-  return fetch(
-    'https://api.themoviedb.org/3/movie/' + id + '/similar?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
+export const getSimilar = id => {
+  return fetch(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
+    function(response) {
       return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+    }
+  );
 };
 
-getConfiguration = () => {
-  return fetch('https://api.themoviedb.org/3/configuration?api_key=df14d9ac8a66811c0dde927cc1ce36c6', { mode: 'cors' })
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-};
-
-getGenreList = () => {
-  return fetch(
-    'https://api.themoviedb.org/3/genre/movie/list?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-};
-
-getMovieList = query => {
-  return fetch(
-    'https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query=' +
-      query +
-      '&language=en-US&api_key=df14d9ac8a66811c0dde927cc1ce36c6',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-};
-
-getNowPlaying = () => {
-  return fetch(
-    'https://api.themoviedb.org/3/movie/now_playing?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-};
-
-getUpcoming = () => {
-  return fetch('https://api.themoviedb.org/3/movie/upcoming?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US', {
+export const getConfiguration = () => {
+  return fetch(`https://api.themoviedb.org/3/configuration?api_key=${key}`, {
     mode: 'cors'
-  })
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+  }).then(function(response) {
+    return response.json();
+  });
 };
 
-getPopular = () => {
-  return fetch('https://api.themoviedb.org/3/movie/popular?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US', {
+export const getGenreList = () => {
+  return fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
+    function(response) {
+      return response.json();
+    }
+  );
+};
+
+export const getMovieList = query => {
+  return fetch(
+    `https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query=${query}&language=en-US&api_key=${key}`,
+    { mode: 'cors' }
+  ).then(function(response) {
+    return response.json();
+  });
+};
+
+export const getNowPlaying = () => {
+  return fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
+    function(response) {
+      return response.json();
+    }
+  );
+};
+
+export const getUpcoming = () => {
+  return fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${key}&language=en-US`, {
     mode: 'cors'
-  })
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+  }).then(function(response) {
+    return response.json();
+  });
 };
 
-getTopRated = () => {
-  return fetch('https://api.themoviedb.org/3/movie/top_rated?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US', {
+export const getPopular = () => {
+  return fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${key}&language=en-US`, {
     mode: 'cors'
-  })
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+  }).then(function(response) {
+    return response.json();
+  });
 };
 
-getMovieDetails = id => {
-  return fetch(
-    'https://api.themoviedb.org/3/movie/' + id + '?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+export const getTopRated = () => {
+  return fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${key}&language=en-US`, {
+    mode: 'cors'
+  }).then(function(response) {
+    return response.json();
+  });
 };
 
-getPersonDetails = id => {
-  return fetch(
-    'https://api.themoviedb.org/3/person/' + id + '?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
+export const getMovieDetails = id => {
+  return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
+    function(response) {
       return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+    }
+  );
 };
 
-getPersonMovieCredits = id => {
-  return fetch(
-    'https://api.themoviedb.org/3/person/' +
-      id +
-      '/movie_credits?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
+export const getPersonDetails = id => {
+  return fetch(`https://api.themoviedb.org/3/person/${id}?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
+    function(response) {
       return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+    }
+  );
 };
 
-getPersonImages = id => {
-  return fetch(
-    'https://api.themoviedb.org/3/person/' +
-      id +
-      '/tagged_images?api_key=df14d9ac8a66811c0dde927cc1ce36c6&language=en-US',
-    { mode: 'cors' }
-  )
-    .then(function(response) {
-      return response.json();
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+export const getPersonMovieCredits = id => {
+  return fetch(`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${key}&language=en-US`, {
+    mode: 'cors'
+  }).then(function(response) {
+    return response.json();
+  });
 };
 
-export {
-  getMovieTrailer,
-  getConfiguration,
-  getGenreList,
-  getMovieList,
-  getNowPlaying,
-  getUpcoming,
-  getMovieCredits,
-  getSimilar,
-  getMovieDetails,
-  getPopular,
-  getTopRated,
-  getPersonDetails,
-  getPersonMovieCredits,
-  getPersonImages
+export const getPersonImages = id => {
+  return fetch(`https://api.themoviedb.org/3/person/${id}/tagged_images?api_key=${key}&language=en-US`, {
+    mode: 'cors'
+  }).then(function(response) {
+    return response.json();
+  });
 };

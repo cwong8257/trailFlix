@@ -1,16 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
 
-export const Header = () => (
-  <header className="header">
-    <div className="content-container">
-      <div className="header__content">
-        <Link className="header__title" to="/">
-          <h1>MovieTrailers</h1>
-        </Link>
-      </div>
+const Header = props => {
+  return (
+    <div>
+      <AppBar position="static" color="default">
+        <Toolbar>
+          <Typography variant="title" color="inherit">
+            MovieTrailers
+          </Typography>
+        </Toolbar>
+      </AppBar>
     </div>
-  </header>
-);
+  );
+};
 
 export default Header;
