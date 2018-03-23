@@ -19,9 +19,7 @@ const jsx = (
   </div>
 );
 
-store.dispatch(startLoad()).then(() => {
-  console.log(store.getState());
-});
+store.dispatch(startLoad());
 
 let hasRendered = false;
 
