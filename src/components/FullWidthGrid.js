@@ -27,7 +27,7 @@ function FullWidthGrid(props) {
     <div className={classes.root}>
       <Grid container spacing={24}>
         {tileData.map(tile => (
-          <Grid item key={tile.img} xs={6} lg={3}>
+          <Grid item key={tile.img} xs={12} sm={6} lg={3}>
             <Link to={`/movie/${tile.id}`}>
               <GridList className={classes.gridList}>
                 <GridListTile key={tile.id} cols={2} rows={2}>

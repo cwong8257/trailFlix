@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { history } from '../routers/AppRouter';
 import compose from 'recompose/compose';
 import YouTube from 'react-youtube';
 import moment from 'moment';
@@ -13,6 +12,7 @@ import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 
+import { history } from '../routers/AppRouter';
 import LoadingPage from './LoadingPage';
 import SingleLineGridList from './SingleLineGridList';
 import { getMovieDetails, getMovieTrailer, getSimilar } from '../tmdb/tmdb';
@@ -82,7 +82,11 @@ class MoviePage extends React.Component {
         width: '100%',
         height: '100%',
         playerVars: {
-          autoplay: 1
+          autoplay: 1,
+          iv_load_policy: 3,
+          modestbranding: 1,
+          rel: 0,
+          showinfo: 0
         }
       };
 
