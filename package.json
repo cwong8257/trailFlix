@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Christopher Wong",
   "license": "MIT",
+  "engines": {
+    "node": "8.10.0"
+  },
   "scripts": {
     "build:dev": "webpack",
     "build:prod": "webpack -p --env production",
