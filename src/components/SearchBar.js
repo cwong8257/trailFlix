@@ -38,6 +38,7 @@ class SearchBar extends React.Component {
     e.preventDefault();
 
     history.push(`/results?search_query=${this.state.search}`);
+    this.setState(() => ({ search: '' }));
   };
 
   render() {

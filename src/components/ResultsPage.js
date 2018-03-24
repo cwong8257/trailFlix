@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
@@ -22,9 +23,6 @@ const styles = theme => ({
     overflow: 'hidden',
     padding: `0 ${theme.spacing.unit * 3}px`
   },
-  demo: {
-    backgroundColor: theme.palette.background.paper
-  },
   title: {
     margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`
   },
@@ -32,6 +30,9 @@ const styles = theme => ({
     alignItems: 'flex-start',
     height: '158px',
     overflow: 'hidden'
+  },
+  link: {
+    textDecoration: 'none'
   }
 });
 
@@ -55,9 +56,17 @@ class ResultsPage extends React.Component {
     this.loadAllData(parsed.search_query);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.search !== this.props.location.search) {
+      const parsed = qs.parse(nextProps.location.search);
+      this.loadAllData(parsed.search_query);
+    }
+  }
+
   render() {
     const { classes, config } = this.props;
     const { dense, secondary, query, movies } = this.state;
+    console.log(movies);
 
     return (
       <div className={classes.root}>
@@ -74,11 +83,13 @@ class ResultsPage extends React.Component {
                   : `https://via.placeholder.com/90x130?text=${title}`;
                 return (
                   <List dense={dense} key={id}>
-                    <ListItem classes={{ root: classes.listItem }} button disableGutters>
-                      <img src={img} alt="title" />
-                      <ListItemText primary={title} secondary={secondary ? overview : null} />
-                      <ListItemSecondaryAction />
-                    </ListItem>
+                    <Link className={classes.link} to={`/movie/${id}`}>
+                      <ListItem classes={{ root: classes.listItem }} button disableGutters>
+                        <img src={img} alt="title" />
+                        <ListItemText primary={title} secondary={secondary ? overview : null} />
+                        <ListItemSecondaryAction />
+                      </ListItem>
+                    </Link>
                   </List>
                 );
               })}
