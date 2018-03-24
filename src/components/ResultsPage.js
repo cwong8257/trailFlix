@@ -9,7 +9,7 @@ import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
-import queryString from 'query-string';
+import qs from 'querystringify';
 import moment from 'moment';
 
 import { getMovieList } from '../tmdb/tmdb';
@@ -51,7 +51,7 @@ class ResultsPage extends React.Component {
   };
 
   componentDidMount() {
-    const parsed = queryString.parse(this.props.location.search);
+    const parsed = qs.parse(this.props.location.search);
     this.loadAllData(parsed.search_query);
   }
 

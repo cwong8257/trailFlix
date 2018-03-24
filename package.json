@@ -34,7 +34,7 @@
     "node-sass": "4.5.3",
     "normalize.css": "7.0.0",
     "numeral": "2.0.6",
-    "query-string": "^6.0.0",
+    "querystringify": "^1.0.0",
     "raf": "3.3.2",
     "react": "16.0.0",
     "react-addons-shallow-compare": "15.6.0",
