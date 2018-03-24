@@ -19,6 +19,9 @@ import { getMovieDetails, getMovieTrailer, getSimilar } from '../tmdb/tmdb';
 
 const styles = theme => ({
   root: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center',
     marginTop: 0
   },
   link: {
@@ -72,8 +75,8 @@ class MoviePage extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     if (this.state) {
-      const { classes } = this.props;
       const { title, overview, imdb_id, youtubeId, homepage, release_date, genres, similar } = this.state;
       const year = moment(release_date).format('YYYY');
       const similarTileData = similar && similar.map(this.moviesToTileData);
@@ -97,7 +100,7 @@ class MoviePage extends React.Component {
               <YouTube videoId={youtubeId} opts={opts} />
             </div>
           </Grid>
-          <Grid item xs={12} sm={10} lg={8}>
+          <Grid item xs={12} md={10} lg={8}>
             <Card>
               <CardContent>
                 <Typography gutterBottom variant="headline" component="h2">
@@ -130,7 +133,11 @@ class MoviePage extends React.Component {
         </Grid>
       );
     }
-    return <LoadingPage />;
+    return (
+      <div className={classes.root}>
+        <LoadingPage />
+      </div>
+    );
   }
 }
 

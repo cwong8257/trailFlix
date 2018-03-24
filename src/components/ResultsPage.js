@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemAvatar, ListItemIcon, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
-import IconButton from 'material-ui/IconButton';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import qs from 'querystringify';
@@ -77,7 +74,8 @@ class ResultsPage extends React.Component {
             </Typography>
             {movies &&
               movies.map(({ title, release_date, id, poster_path, overview }) => {
-                const primary = `${title} (${moment(release_date).format('YYYY')})`;
+                const year = release_date && moment(release_date).format('YYYY');
+                const primary = year ? `${title} (${year})` : `${title}`;
                 const img = poster_path
                   ? config.images.secure_base_url + config.images.poster_sizes[0] + poster_path
                   : `https://via.placeholder.com/90x130?text=${title}`;
@@ -85,9 +83,8 @@ class ResultsPage extends React.Component {
                   <List dense={dense} key={id}>
                     <Link className={classes.link} to={`/movie/${id}`}>
                       <ListItem classes={{ root: classes.listItem }} button disableGutters>
-                        <img src={img} alt="title" />
-                        <ListItemText primary={title} secondary={secondary ? overview : null} />
-                        <ListItemSecondaryAction />
+                        <img src={img} alt={title} />
+                        <ListItemText primary={primary} secondary={secondary ? overview : null} />
                       </ListItem>
                     </Link>
                   </List>
