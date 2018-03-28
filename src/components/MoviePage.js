@@ -54,7 +54,6 @@ class MoviePage extends React.Component {
   loadAllData = id => {
     getMovieDetails(id)
       .then(movie => {
-        console.log(movie);
         this.setState(() => ({ ...movie }));
         return getMovieTrailer(id);
       })
