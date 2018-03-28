@@ -63,7 +63,6 @@ class ResultsPage extends React.Component {
   render() {
     const { classes, config } = this.props;
     const { dense, secondary, query, movies } = this.state;
-    console.log(movies);
 
     return (
       <div className={classes.root}>

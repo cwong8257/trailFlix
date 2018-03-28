@@ -11,26 +11,30 @@ import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
+import Hidden from 'material-ui/Hidden';
 
 import { history } from '../routers/AppRouter';
 import LoadingPage from './LoadingPage';
 import SingleLineGridList from './SingleLineGridList';
+import Rating from './Rating';
 import { getMovieDetails, getMovieTrailer, getSimilar } from '../tmdb/tmdb';
 
 const styles = theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    alignContent: 'center',
-    marginTop: 0
+    alignContent: 'center'
   },
   link: {
     textDecoration: 'none'
   },
-  videoContainer: {
+  mediaContainer: {
     width: '100%',
     height: '56.25vw',
-    maxHeight: '835px'
+    maxHeight: '50rem'
+  },
+  card: {
+    marginTop: '20px'
   }
 });
 
@@ -50,6 +54,7 @@ class MoviePage extends React.Component {
   loadAllData = id => {
     getMovieDetails(id)
       .then(movie => {
+        console.log(movie);
         this.setState(() => ({ ...movie }));
         return getMovieTrailer(id);
       })
@@ -77,8 +82,19 @@ class MoviePage extends React.Component {
   render() {
     const { classes } = this.props;
     if (this.state) {
-      const { title, overview, imdb_id, youtubeId, homepage, release_date, genres, similar } = this.state;
-      const year = moment(release_date).format('YYYY');
+      const {
+        title,
+        overview,
+        imdb_id,
+        youtubeId,
+        homepage,
+        release_date,
+        genres,
+        similar,
+        vote_average,
+        vote_count
+      } = this.state;
+      const year = release_date && moment(release_date).format('YYYY');
       const similarTileData = similar && similar.map(this.moviesToTileData);
       const genresList = genres && genres.map(({ name }, index) => name + (index === genres.length - 1 ? '' : ', '));
       const opts = {
@@ -95,18 +111,33 @@ class MoviePage extends React.Component {
 
       return (
         <Grid container justify="center">
-          <Grid item xs={12}>
-            <div className={classes.videoContainer}>
-              <YouTube videoId={youtubeId} opts={opts} />
-            </div>
-          </Grid>
+          {youtubeId && (
+            <Grid item xs={12}>
+              <div className={classes.mediaContainer}>
+                <YouTube videoId={youtubeId} opts={opts} />
+              </div>
+            </Grid>
+          )}
           <Grid item xs={12} md={10} lg={8}>
-            <Card>
+            <Card className={classes.card}>
               <CardContent>
-                <Typography gutterBottom variant="headline" component="h2">
-                  {title} {year && `(${year})`}
-                </Typography>
-                {genresList && <Typography component="p">{genresList}</Typography>}
+                <Grid container alignItems="center" justify="space-between">
+                  <Grid item>
+                    <Typography gutterBottom variant="headline" component="h2">
+                      {title} {year && `(${year})`}
+                    </Typography>
+                  </Grid>
+                  <Hidden xsDown>
+                    <Grid item>
+                      <Rating rating={vote_average} count={vote_count} />
+                    </Grid>
+                  </Hidden>
+                </Grid>
+                {genresList && (
+                  <Typography variant="subheading" component="p">
+                    {genresList}
+                  </Typography>
+                )}
               </CardContent>
               <Divider />
               <CardContent>
@@ -126,8 +157,18 @@ class MoviePage extends React.Component {
                   </Button>
                 )}
               </CardActions>
-              <Divider />
-              <CardContent>{similarTileData && <SingleLineGridList tileData={similarTileData} />}</CardContent>
+              {similarTileData &&
+                similarTileData.length > 0 && (
+                  <div>
+                    <Divider />
+                    <CardContent>
+                      <Typography gutterBottom variant="subheading" component="h3">
+                        More Like This...
+                      </Typography>
+                      <SingleLineGridList tileData={similarTileData} />
+                    </CardContent>
+                  </div>
+                )}
             </Card>
           </Grid>
         </Grid>

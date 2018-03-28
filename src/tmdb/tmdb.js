@@ -7,18 +7,15 @@ export const getMovieTrailer = id => {
     })
     .then(({ results }) => {
       const types = ['Trailer', 'Teaser', 'Featurette', 'Clip'];
-      let url = '';
 
-      for (let i = 0, typesLength = types.length; i < typesLength; i++) {
+      for (let i = 0; i < types.length; i++) {
         let type = types[i];
 
-        for (let j = 0, resultsLength = results.length; j < resultsLength; j++) {
+        for (let j = 0; j < results.length; j++) {
           let result = results[j];
 
-          if (result.site === 'YouTube') {
-            if (result.type === type) {
-              return result.key;
-            }
+          if (result.site === 'YouTube' && result.type === type) {
+            return result.key;
           }
         }
       }

@@ -1,9 +1,12 @@
 import React from 'react';
+import Grid from 'material-ui/Grid';
 
 const LoadingPage = () => (
-  <div className="loader">
-    <img className="loader__image" src="/images/loader.gif" />
-  </div>
+  <Grid container alignItems="center" justify="center">
+    <Grid item>
+      <img src="/images/loader.gif" />
+    </Grid>
+  </Grid>
 );
 
 export default LoadingPage;
