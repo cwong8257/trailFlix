@@ -80,6 +80,7 @@ class MoviePage extends React.Component {
 
   render() {
     const { classes } = this.props;
+
     if (this.state) {
       const {
         title,

@@ -9,6 +9,10 @@ import NotFoundPage from '../components/NotFoundPage';
 
 export const history = createHistory();
 
+history.listen((location, action) => {
+  window.scrollTo(0, 0);
+});
+
 const AppRouter = () => (
   <Router history={history}>
     <div>
