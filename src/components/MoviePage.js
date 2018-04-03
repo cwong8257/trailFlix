@@ -35,6 +35,9 @@ const styles = theme => ({
   },
   card: {
     marginTop: '20px'
+  },
+  rating: {
+    float: 'right'
   }
 });
 
@@ -121,18 +124,16 @@ class MoviePage extends React.Component {
           <Grid item xs={12} md={10} lg={8}>
             <Card className={classes.card}>
               <CardContent>
-                <Grid container alignItems="center" justify="space-between">
-                  <Grid item>
-                    <Typography gutterBottom variant="headline" component="h2">
-                      {title} {year && `(${year})`}
-                    </Typography>
-                  </Grid>
+                <div className={classes.rating}>
                   <Hidden xsDown>
-                    <Grid item>
-                      <Rating rating={vote_average} count={vote_count} />
-                    </Grid>
+                    <Rating rating={vote_average} count={vote_count} />
                   </Hidden>
-                </Grid>
+                </div>
+
+                <Typography gutterBottom variant="title" component="h2">
+                  {title} {year && `(${year})`}
+                </Typography>
+
                 {genresList && (
                   <Typography variant="subheading" component="p">
                     {genresList}
