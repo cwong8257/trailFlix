@@ -12,7 +12,6 @@ const styles = theme => ({
   gridList: {
     width: '100%',
     height: 'auto',
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)'
   },
   titleBar: {

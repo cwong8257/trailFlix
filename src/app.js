@@ -6,7 +6,8 @@ import configureStore from './store/configureStore';
 import { startLoad } from './actions/config';
 import CssBaseline from 'material-ui/CssBaseline';
 import 'react-dates/lib/css/_datepicker.css';
-import LoadingPage from './components/LoadingPage';
+import CircularIndeterminate from './components/CircularIndeterminate';
+import 'normalize.css';
 
 const store = configureStore();
 

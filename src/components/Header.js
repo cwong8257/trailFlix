@@ -15,11 +15,15 @@ const styles = theme => ({
   },
   logo: {
     textDecoration: 'none',
-    color: 'inherit'
+    color: 'red',
+    display: 'inline-block'
   },
   toolbar: {
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  appBar: {
+    backgroundColor: '#141414'
   }
 });
 
@@ -27,15 +31,15 @@ const Header = props => {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar className={classes.appBar} position="static" color="inherit">
         <Toolbar className={classes.toolbar}>
           <Grid container alignItems="center">
             <Grid item xs sm md lg>
-              <Typography variant="title" color="inherit">
-                <Link className={classes.logo} to="/">
+              <Link className={classes.logo} to="/">
+                <Typography variant="title" color="inherit">
                   MovieTrailers
-                </Link>
-              </Typography>
+                </Typography>
+              </Link>
             </Grid>
             <Grid item xs sm={6} md={5} lg={4}>
               <SearchBar />

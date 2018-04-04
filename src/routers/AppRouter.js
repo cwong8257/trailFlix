@@ -5,6 +5,9 @@ import Header from '../components/Header';
 import HomePage from '../components/HomePage';
 import MoviePage from '../components/MoviePage';
 import ResultsPage from '../components/ResultsPage';
+import MostPopularPage from '../components/MostPopularPage';
+import UpcomingPage from '../components/UpcomingPage';
+import TopRatedPage from '../components/TopRatedPage';
 import NotFoundPage from '../components/NotFoundPage';
 
 export const history = createHistory();
@@ -21,6 +24,9 @@ const AppRouter = () => (
         <Route path="/" component={HomePage} exact={true} />
         <Route path="/movie/:id" component={MoviePage} />
         <Route path="/results" component={ResultsPage} />
+        <Route path="/most_popular" component={MostPopularPage} />
+        <Route path="/upcoming" component={UpcomingPage} />
+        <Route path="/top_rated" component={TopRatedPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

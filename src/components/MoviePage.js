@@ -14,7 +14,7 @@ import Divider from 'material-ui/Divider';
 import Hidden from 'material-ui/Hidden';
 
 import { history } from '../routers/AppRouter';
-import LoadingPage from './LoadingPage';
+import CircularIndeterminate from './CircularIndeterminate';
 import SingleLineGridList from './SingleLineGridList';
 import Rating from './Rating';
 import { getMovieDetails, getMovieTrailer, getSimilar } from '../tmdb/tmdb';
@@ -177,7 +177,7 @@ class MoviePage extends React.Component {
     }
     return (
       <div className={classes.root}>
-        <LoadingPage />
+        <CircularIndeterminate />
       </div>
     );
   }
