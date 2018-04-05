@@ -12,29 +12,20 @@ import FullWidthGrid from './FullWidthGrid';
 import CircularIndeterminate from './CircularIndeterminate';
 import { getPopular, getUpcoming, getTopRated } from '../tmdb/tmdb';
 
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
 const styles = theme => ({
   root: {
     padding: '2rem',
     backgroundColor: '#141414'
+  },
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
 class HomePage extends React.Component {
-  state = {
-    value: 0
-  };
-
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
+  state = {};
 
   moviesToTileData = movie => {
     const { config } = this.props;
@@ -64,7 +55,7 @@ class HomePage extends React.Component {
 
   render() {
     const { classes, config } = this.props;
-    const { value, mostPopular, upcoming, topRated } = this.state;
+    const { mostPopular, upcoming, topRated } = this.state;
 
     if (mostPopular && upcoming && topRated) {
       const mostPopularTileData = mostPopular.map(this.moviesToTileData);
@@ -79,7 +70,11 @@ class HomePage extends React.Component {
         </div>
       );
     }
-    return <CircularIndeterminate />;
+    return (
+      <div className={classes.loading}>
+        <CircularIndeterminate />
+      </div>
+    );
   }
 }
 

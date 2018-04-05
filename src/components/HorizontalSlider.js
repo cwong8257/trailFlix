@@ -9,16 +9,15 @@ const getBig = keyframes`
   from {
     transform: scale(1, 1);
   }
-
   to {
     transform: scale(1.1, 1.1);
   }
 `;
 
 const unhide = keyframes`
-  fron {
+  from {
     opacity: 0;
-    transform: translateX(10rem);
+    transform: translateX(-1rem);
   }
   to {
     opacity: 1;
@@ -29,49 +28,54 @@ const unhide = keyframes`
 const Wrapper = styled.div`
   background-color: inherit;
   color: #e5e5e5;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 `;
 
 const Title = styled.div`
-  display: inline-block;
   color: #e5e5e5;
   text-decoration: none;
+  margin-bottom: 0.2rem;
+  display: inline-block;
   position: relative;
-  margin-bottom: 1rem;
 
   &:hover {
     color: white;
+
+    & div {
+      animation: ${unhide} 1s both;
+    }
+  }
+`;
+
+const Image = styled.img`
+  width: 40.15vw;
+
+  @media (min-width: 500px) {
+    width: 30vw;
+  }
+  @media (min-width: 900px) {
+    width: 23.2vw;
+  }
+  @media (min-width: 1200px) {
+    width: 16.1vw;
   }
 `;
 
 const Hidden = styled.div`
   position: absolute;
-  bottom: 0;
-  right: -6rem;
+  bottom: 0.1rem;
+  right: -4.5rem;
+  opacity: 0;
 `;
 
 const Tile = styled.div`
   position: relative;
-  margin-right: 4px;
+  margin-right: 0.2rem;
+  display: inline-block;
 
   &:hover {
     animation: ${getBig} 0.3s 0.1s both;
     z-index: 1;
-  }
-`;
-
-const Image = styled.img`
-  @media (min-width: 540px) {
-    width: 35vw;
-  }
-  @media (min-width: 720px) {
-    width: 30vw;
-  }
-  @media (min-width: 960px) {
-    width: 22vw;
-  }
-  @media (min-width: 1140px) {
-    width: 15vw;
   }
 `;
 
@@ -83,49 +87,41 @@ const TextBox = styled.div`
   margin: 0;
   color: #fff;
   text-decoration: none;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 68%, rgba(0, 0, 0, 1) 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
   opacity: 1;
   width: 100%;
 `;
 
 class HorizontalSlider extends Component {
-  state = {
-    titleIsHovered: false
-  };
-
-  setButtonHovered(titleIsHovered) {
-    this.setState(() => ({ titleIsHovered }));
-  }
-
   render() {
     const { tileData, title, link } = this.props;
 
     const settings = {
       infinite: true,
-      speed: 500,
+      slidesToScroll: 1,
       variableWidth: true
     };
     return (
       <Wrapper>
         <Link to={`${link}`}>
-          <Title onMouseEnter={() => this.setButtonHovered(true)} onMouseLeave={() => this.setButtonHovered(false)}>
-            <Typography color="inherit" variant="headline" component="span">
+          <Title>
+            <Typography color="inherit" variant="subheading" component="span">
               {title}
             </Typography>
             <Hidden>
-              <Typography color="inherit" variant="body1" component="span">
+              <Typography color="inherit" variant="caption" component="span">
                 Explore All &gt;
               </Typography>
             </Hidden>
           </Title>
         </Link>
-        <Slider {...settings}>
+        <Slider class {...settings}>
           {tileData.map(({ id, img, title }) => (
             <Tile key={img}>
               <Link to={`/movie/${id}`}>
                 <Image src={img} alt={title} />
                 <TextBox>
-                  <Typography color="inherit" variant="subheading" component="span">
+                  <Typography color="inherit" variant="caption" component="span">
                     {title}
                   </Typography>
                 </TextBox>
