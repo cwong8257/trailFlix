@@ -1,45 +1,68 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
+import styled, { keyframes } from 'styled-components';
+import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
 import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1
-  },
-  gridList: {
-    width: '100%',
-    height: 'auto',
-    transform: 'translateZ(0)'
-  },
-  titleBar: {
-    background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' + 'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
+const getBig = keyframes`
+  from {
+    transform: scale(1, 1);
   }
-});
+  to {
+    transform: scale(1.1, 1.1);
+  }
+`;
+
+const Tile = styled.div`
+  position: relative;
+  display: block;
+
+  &:hover {
+    animation: ${getBig} 0.3s 0.1s both;
+    z-index: 1;
+  }
+`;
+
+const Image = styled.img`
+  width: 100%;
+`;
+
+const TextBox = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 0.8rem;
+  margin: 0;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
+  opacity: 1;
+  width: 100%;
+`;
 
 function FullWidthGrid(props) {
   const { classes, tileData } = props;
 
   return (
-    <div className={classes.root}>
-      <Grid container spacing={24}>
-        {tileData.map(tile => (
-          <Grid item key={tile.img} xs={12} sm={6} lg={3}>
-            <Link to={`/movie/${tile.id}`}>
-              <GridList className={classes.gridList}>
-                <GridListTile key={tile.id} cols={2} rows={2}>
-                  <img className={classes.img} src={tile.img} alt={tile.title} />
-                  <GridListTileBar title={tile.title} titlePosition="top" className={classes.titleBar} />
-                </GridListTile>
-              </GridList>
+    <Grid container spacing={16}>
+      {tileData.map(({ id, img, title }) => (
+        <Grid item key={img} xs={6} sm={3} lg={2}>
+          <Tile key={img}>
+            <Link to={`/movie/${id}`}>
+              <Image src={img} alt={title} />
+              <TextBox>
+                <Typography color="inherit" variant="caption" component="span">
+                  {title}
+                </Typography>
+              </TextBox>
             </Link>
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+          </Tile>
+        </Grid>
+      ))}
+    </Grid>
   );
 }
 
-export default withStyles(styles)(FullWidthGrid);
+export default FullWidthGrid;

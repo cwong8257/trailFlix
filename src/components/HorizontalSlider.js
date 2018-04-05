@@ -28,13 +28,13 @@ const unhide = keyframes`
 const Wrapper = styled.div`
   background-color: inherit;
   color: #e5e5e5;
-  margin-bottom: 2rem;
+  margin-bottom: 3.6rem;
 `;
 
 const Title = styled.div`
   color: #e5e5e5;
   text-decoration: none;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
   display: inline-block;
   position: relative;
 
@@ -56,8 +56,14 @@ const Image = styled.img`
   @media (min-width: 900px) {
     width: 23.2vw;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: 1100px) {
+    width: 18.7vw;
+  }
+  @media (min-width: 1400px) {
     width: 16.1vw;
+  }
+  @media (min-width: 1800px) {
+    width: 13.7vw;
   }
 `;
 
@@ -69,27 +75,13 @@ const Hidden = styled.div`
 `;
 
 const Tile = styled.div`
-  position: relative;
-  margin-right: 0.2rem;
+  margin-right: 0.3rem;
   display: inline-block;
 
   &:hover {
     animation: ${getBig} 0.3s 0.1s both;
     z-index: 1;
   }
-`;
-
-const TextBox = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 0.8rem;
-  margin: 0;
-  color: #fff;
-  text-decoration: none;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
-  opacity: 1;
-  width: 100%;
 `;
 
 class HorizontalSlider extends Component {
@@ -105,7 +97,7 @@ class HorizontalSlider extends Component {
       <Wrapper>
         <Link to={`${link}`}>
           <Title>
-            <Typography color="inherit" variant="subheading" component="span">
+            <Typography color="inherit" variant="title" component="span">
               {title}
             </Typography>
             <Hidden>
@@ -120,11 +112,6 @@ class HorizontalSlider extends Component {
             <Tile key={img}>
               <Link to={`/movie/${id}`}>
                 <Image src={img} alt={title} />
-                <TextBox>
-                  <Typography color="inherit" variant="caption" component="span">
-                    {title}
-                  </Typography>
-                </TextBox>
               </Link>
             </Tile>
           ))}

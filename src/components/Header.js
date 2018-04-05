@@ -36,7 +36,7 @@ const Header = props => {
           <Grid container alignItems="center">
             <Grid item xs sm md lg>
               <Link className={classes.logo} to="/">
-                <Typography variant="title" color="inherit">
+                <Typography variant="headline" color="inherit">
                   MovieTrailers
                 </Typography>
               </Link>

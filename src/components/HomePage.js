@@ -4,7 +4,6 @@ import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
-import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
 
 import HorizontalSlider from './HorizontalSlider';
@@ -29,8 +28,8 @@ class HomePage extends React.Component {
 
   moviesToTileData = movie => {
     const { config } = this.props;
-    const { backdrop_path, title, id } = movie;
-    const img = config.images.secure_base_url + config.images.backdrop_sizes[0] + backdrop_path;
+    const { poster_path, title, id } = movie;
+    const img = config.images.secure_base_url + config.images.poster_sizes[3] + poster_path;
     return {
       img,
       title,

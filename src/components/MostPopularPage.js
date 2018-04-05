@@ -10,7 +10,8 @@ import { getPopular } from '../tmdb/tmdb';
 const styles = theme => ({
   root: {
     padding: '2rem',
-    backgroundColor: '#141414'
+    backgroundColor: '#141414',
+    color: 'white'
   }
 });
 
@@ -19,8 +20,8 @@ class MostPopularPage extends React.Component {
 
   moviesToTileData = movie => {
     const { config } = this.props;
-    const { backdrop_path, title, id } = movie;
-    const img = config.images.secure_base_url + config.images.backdrop_sizes[1] + backdrop_path;
+    const { poster_path, title, id } = movie;
+    const img = config.images.secure_base_url + config.images.poster_sizes[3] + poster_path;
 
     return {
       img,
@@ -45,6 +46,9 @@ class MostPopularPage extends React.Component {
 
       return (
         <div className={classes.root}>
+          <Typography color="inherit" variant="display2" component="h1" gutterBottom>
+            Most Popular
+          </Typography>
           <FullWidthGrid tileData={tileData} />
         </div>
       );
