@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import FullWidthGrid from './FullWidthGrid';
-import { getPopular } from '../tmdb/tmdb';
+import FullWidthGrid from '../FullWidthGrid';
+import { getPopular } from '../../tmdb/tmdb';
 
 const imageList = [];
 

@@ -4,8 +4,8 @@ import Typography from 'material-ui/Typography';
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
 
-import CircularIndeterminate from './CircularIndeterminate';
-import FullWidthGrid from './FullWidthGrid';
+import CircularIndeterminate from '../CircularIndeterminate';
+import FullWidthGrid from '../FullWidthGrid';
 
 class InfinitePage extends React.Component {
   state = {
@@ -47,7 +47,6 @@ class InfinitePage extends React.Component {
     const { classes, config, title } = this.props;
     const { movies } = this.state;
     const loader = <div key={3}>Loading ...</div>;
-    console.log(movies);
 
     if (movies) {
       const tileData = movies.filter(this.filterMovies).map(this.mapMovies);

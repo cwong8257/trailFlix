@@ -6,10 +6,10 @@ import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Grid from 'material-ui/Grid';
 
-import HorizontalSlider from './HorizontalSlider';
-import FullWidthGrid from './FullWidthGrid';
-import CircularIndeterminate from './CircularIndeterminate';
-import { getPopular, getUpcoming, getTopRated } from '../tmdb/tmdb';
+import HorizontalSlider from '../HorizontalSlider';
+import FullWidthGrid from '../FullWidthGrid';
+import CircularIndeterminate from '../CircularIndeterminate';
+import { getPopular, getUpcoming, getTopRated } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {

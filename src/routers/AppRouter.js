@@ -1,15 +1,15 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
-import Header from '../components/Header';
-import HomePage from '../components/HomePage';
-import MoviePage from '../components/MoviePage';
-import ResultsPage from '../components/ResultsPage';
-import MostPopularPage from '../components/MostPopularPage';
-import UpcomingPage from '../components/UpcomingPage';
-import TopRatedPage from '../components/TopRatedPage';
-import NotFoundPage from '../components/NotFoundPage';
-import TestPage from '../components/TestPage';
+import Header from '../components/Header/Header';
+import HomePage from '../components/Pages/HomePage';
+import MoviePage from '../components/Pages/MoviePage';
+import ResultsPage from '../components/Pages/ResultsPage';
+import MostPopularPage from '../components/Pages/MostPopularPage';
+import UpcomingPage from '../components/Pages/UpcomingPage';
+import TopRatedPage from '../components/Pages/TopRatedPage';
+import NotFoundPage from '../components/Pages/NotFoundPage';
+import TestPage from '../components/Pages/TestPage';
 
 export const history = createHistory();
 

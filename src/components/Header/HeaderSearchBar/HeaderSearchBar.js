@@ -2,8 +2,8 @@ import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 
-import { history } from '../routers/AppRouter';
-import { getMovieList } from '../tmdb/tmdb';
+import { history } from '../../../routers/AppRouter';
+import { getMovieList } from '../../../tmdb/tmdb';
 
 const styles = theme => ({
   textFieldRoot: {
@@ -24,7 +24,7 @@ const styles = theme => ({
   }
 });
 
-class SearchBar extends React.Component {
+class HeaderSearchBar extends React.Component {
   state = {
     search: ''
   };
@@ -64,4 +64,4 @@ class SearchBar extends React.Component {
   }
 }
 
-export default withStyles(styles)(SearchBar);
+export default withStyles(styles)(HeaderSearchBar);

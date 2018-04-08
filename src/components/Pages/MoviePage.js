@@ -13,11 +13,11 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Hidden from 'material-ui/Hidden';
 
-import { history } from '../routers/AppRouter';
-import CircularIndeterminate from './CircularIndeterminate';
-import SingleLineGridList from './SingleLineGridList';
-import Rating from './Rating';
-import { getMovieDetails, getMovieTrailer, getSimilar } from '../tmdb/tmdb';
+import { history } from '../../routers/AppRouter';
+import CircularIndeterminate from '../CircularIndeterminate';
+import SingleLineGridList from '../SingleLineGridList';
+import Rating from '../Rating';
+import { getMovieDetails, getMovieTrailer, getSimilar } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {

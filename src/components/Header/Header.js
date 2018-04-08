@@ -5,25 +5,31 @@ import Grid from 'material-ui/Grid';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
+import Icon from 'material-ui/Icon';
 
-import SearchBar from './SearchBar';
+import HeaderLogo from './HeaderLogo/HeaderLogo';
+import HeaderMenuIcon from './HeaderMenuIcon/HeaderMenuIcon';
+import HeaderSearchBar from './HeaderSearchBar/HeaderSearchBar';
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    color: 'white'
   },
-  logo: {
-    textDecoration: 'none',
-    color: 'red',
-    display: 'inline-block'
+  appBar: {
+    backgroundColor: '#141414'
   },
   toolbar: {
     display: 'flex',
     justifyContent: 'space-between'
   },
-  appBar: {
-    backgroundColor: '#141414'
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20
+  },
+  icon: {
+    color: 'inherit'
   }
 });
 
@@ -33,16 +39,13 @@ const Header = props => {
     <div className={classes.root}>
       <AppBar className={classes.appBar} position="static" color="inherit">
         <Toolbar className={classes.toolbar}>
+          <HeaderMenuIcon />
           <Grid container alignItems="center">
             <Grid item xs sm md lg>
-              <Link className={classes.logo} to="/">
-                <Typography variant="headline" color="inherit">
-                  MovieTrailers
-                </Typography>
-              </Link>
+              <HeaderLogo />
             </Grid>
             <Grid item xs sm={6} md={5} lg={4}>
-              <SearchBar />
+              <HeaderSearchBar />
             </Grid>
           </Grid>
         </Toolbar>

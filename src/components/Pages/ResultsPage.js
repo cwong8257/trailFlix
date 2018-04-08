@@ -10,7 +10,7 @@ import Typography from 'material-ui/Typography';
 import qs from 'querystringify';
 import moment from 'moment';
 
-import { getMovieList } from '../tmdb/tmdb';
+import { getMovieList } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {

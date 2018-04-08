@@ -4,7 +4,7 @@ import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 
 import InfinitePage from './InfinitePage';
-import { getUpcoming } from '../tmdb/tmdb';
+import { getUpcoming } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {

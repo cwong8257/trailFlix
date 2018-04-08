@@ -4,7 +4,7 @@ import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 
 import InfinitePage from './InfinitePage';
-import { getTopRated } from '../tmdb/tmdb';
+import { getPopular } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {
@@ -20,7 +20,7 @@ class MostPopularPage extends React.Component {
 
     return (
       <div className={classes.root}>
-        <InfinitePage loadMore={getTopRated} title="Top Rated" />
+        <InfinitePage loadMore={getPopular} title="Most Popular" />
       </div>
     );
   }
