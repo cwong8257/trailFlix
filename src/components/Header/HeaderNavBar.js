@@ -19,8 +19,7 @@ const styles = theme => ({
   }
 });
 
-function FlatButtons(props) {
-  const { classes } = props;
+const HeaderNavBar = ({ classes }) => {
   return (
     <div className={classes.root}>
       <Typography color="inherit" variant="body1" component="span">
@@ -45,6 +44,6 @@ function FlatButtons(props) {
       </Typography>
     </div>
   );
-}
+};
 
-export default withStyles(styles)(FlatButtons);
+export default withStyles(styles)(HeaderNavBar);

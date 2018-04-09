@@ -5,7 +5,6 @@ import Toolbar from 'material-ui/Toolbar';
 import Hidden from 'material-ui/Hidden';
 
 import HeaderLogo from './HeaderLogo';
-import HeaderNavbar from './HeaderNavbar';
 import HeaderNavigation from './HeaderNavigation';
 import HeaderSearchBar from './HeaderSearchBar';
 import HeaderSearchIcon from './HeaderSearchIcon';
@@ -39,7 +38,6 @@ class Header extends React.Component {
           <Toolbar>
             <Hidden smDown>
               <HeaderLogo />
-              <HeaderNavbar />
             </Hidden>
             {!searchFocused && (
               <Hidden mdUp>
