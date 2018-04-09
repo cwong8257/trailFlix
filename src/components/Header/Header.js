@@ -5,10 +5,10 @@ import Toolbar from 'material-ui/Toolbar';
 import Hidden from 'material-ui/Hidden';
 
 import HeaderLogo from './HeaderLogo';
-import HeaderNavigation from './HeaderNavigation';
-import HeaderSearchIcon from './HeaderSearchIcon';
-import HeaderSearchBar from './HeaderSearchBar';
 import HeaderNavbar from './HeaderNavbar';
+import HeaderNavigation from './HeaderNavigation';
+import HeaderSearchBar from './HeaderSearchBar';
+import HeaderSearchIcon from './HeaderSearchIcon';
 
 const styles = theme => ({
   root: {
