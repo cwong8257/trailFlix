@@ -8,9 +8,9 @@ import { getTopRated } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {
-    padding: '2rem',
+    padding: '4rem 2rem',
     backgroundColor: '#141414',
-    color: 'white'
+    color: '#e5e5e5'
   }
 });
 

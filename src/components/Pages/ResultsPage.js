@@ -18,7 +18,7 @@ const styles = theme => ({
     justifyContent: 'center',
     flexGrow: 1,
     overflow: 'hidden',
-    padding: `0 ${theme.spacing.unit * 3}px`
+    padding: `4rem ${theme.spacing.unit * 3}px`
   },
   title: {
     margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`

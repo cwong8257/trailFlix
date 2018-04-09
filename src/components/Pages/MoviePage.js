@@ -23,7 +23,8 @@ const styles = theme => ({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    alignContent: 'center'
+    alignContent: 'center',
+    paddingTop: '4rem'
   },
   link: {
     textDecoration: 'none'
@@ -113,66 +114,68 @@ class MoviePage extends React.Component {
       };
 
       return (
-        <Grid container justify="center">
-          {youtubeId && (
-            <Grid item xs={12}>
-              <div className={classes.mediaContainer}>
-                <YouTube videoId={youtubeId} opts={opts} />
-              </div>
-            </Grid>
-          )}
-          <Grid item xs={12} md={10} lg={8}>
-            <Card className={classes.card}>
-              <CardContent>
-                <div className={classes.rating}>
-                  <Hidden xsDown>
-                    <Rating rating={vote_average} count={vote_count} />
-                  </Hidden>
+        <div className={classes.root}>
+          <Grid container justify="center">
+            {youtubeId && (
+              <Grid item xs={12}>
+                <div className={classes.mediaContainer}>
+                  <YouTube videoId={youtubeId} opts={opts} />
                 </div>
+              </Grid>
+            )}
+            <Grid item xs={12} md={10} lg={8}>
+              <Card className={classes.card}>
+                <CardContent>
+                  <div className={classes.rating}>
+                    <Hidden xsDown>
+                      <Rating rating={vote_average} count={vote_count} />
+                    </Hidden>
+                  </div>
 
-                <Typography gutterBottom variant="title" component="h2">
-                  {title} {year && `(${year})`}
-                </Typography>
-
-                {genresList && (
-                  <Typography variant="subheading" component="p">
-                    {genresList}
+                  <Typography gutterBottom variant="title" component="h2">
+                    {title} {year && `(${year})`}
                   </Typography>
-                )}
-              </CardContent>
-              <Divider />
-              <CardContent>
-                <Typography component="p">{overview}</Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small" color="primary">
-                  <a className={classes.link} target="_blank" href={`http://www.imdb.com/title/${imdb_id}/`}>
-                    IMDB
-                  </a>
-                </Button>
-                {homepage && (
+
+                  {genresList && (
+                    <Typography variant="subheading" component="p">
+                      {genresList}
+                    </Typography>
+                  )}
+                </CardContent>
+                <Divider />
+                <CardContent>
+                  <Typography component="p">{overview}</Typography>
+                </CardContent>
+                <CardActions>
                   <Button size="small" color="primary">
-                    <a className={classes.link} target="_blank" href={homepage}>
-                      Home Page
+                    <a className={classes.link} target="_blank" href={`http://www.imdb.com/title/${imdb_id}/`}>
+                      IMDB
                     </a>
                   </Button>
-                )}
-              </CardActions>
-              {similarTileData &&
-                similarTileData.length > 0 && (
-                  <div>
-                    <Divider />
-                    <CardContent>
-                      <Typography gutterBottom variant="subheading" component="h3">
-                        More Like This...
-                      </Typography>
-                      <SingleLineGridList tileData={similarTileData} />
-                    </CardContent>
-                  </div>
-                )}
-            </Card>
+                  {homepage && (
+                    <Button size="small" color="primary">
+                      <a className={classes.link} target="_blank" href={homepage}>
+                        Home Page
+                      </a>
+                    </Button>
+                  )}
+                </CardActions>
+                {similarTileData &&
+                  similarTileData.length > 0 && (
+                    <div>
+                      <Divider />
+                      <CardContent>
+                        <Typography gutterBottom variant="subheading" component="h3">
+                          More Like This...
+                        </Typography>
+                        <SingleLineGridList tileData={similarTileData} />
+                      </CardContent>
+                    </div>
+                  )}
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       );
     }
     return (

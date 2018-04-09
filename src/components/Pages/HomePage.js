@@ -5,6 +5,7 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs';
 import Grid from 'material-ui/Grid';
+import moment from 'moment';
 
 import HorizontalSlider from '../HorizontalSlider';
 import FullWidthGrid from '../FullWidthGrid';
@@ -13,8 +14,9 @@ import { getPopular, getUpcoming, getTopRated } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {
-    padding: '2rem',
-    backgroundColor: '#141414'
+    padding: '4rem 2rem',
+    backgroundColor: '#141414',
+    color: '#e5e5e5'
   },
   loading: {
     display: 'flex',
@@ -26,14 +28,17 @@ const styles = theme => ({
 class HomePage extends React.Component {
   state = {};
 
-  moviesToTileData = movie => {
+  mapMovies = ({ poster_path, title, id, release_date, overview }) => {
     const { config } = this.props;
-    const { poster_path, title, id } = movie;
     const img = config.images.secure_base_url + config.images.poster_sizes[3] + poster_path;
+    const year = release_date && moment(release_date).format('YYYY');
+
     return {
+      id,
       img,
       title,
-      id
+      overview,
+      year
     };
   };
 
@@ -57,9 +62,9 @@ class HomePage extends React.Component {
     const { mostPopular, upcoming, topRated } = this.state;
 
     if (mostPopular && upcoming && topRated) {
-      const mostPopularTileData = mostPopular.map(this.moviesToTileData);
-      const upcomingTileData = upcoming.map(this.moviesToTileData);
-      const topRatedTileData = topRated.map(this.moviesToTileData);
+      const mostPopularTileData = mostPopular.map(this.mapMovies);
+      const upcomingTileData = upcoming.map(this.mapMovies);
+      const topRatedTileData = topRated.map(this.mapMovies);
 
       return (
         <div className={classes.root}>

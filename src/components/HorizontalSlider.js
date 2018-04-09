@@ -5,14 +5,7 @@ import Typography from 'material-ui/Typography';
 import styled, { keyframes } from 'styled-components';
 import { withStyles } from 'material-ui/styles';
 
-const getBig = keyframes`
-  from {
-    transform: scale(1, 1);
-  }
-  to {
-    transform: scale(1.1, 1.1);
-  }
-`;
+import Poster from './Poster';
 
 const unhide = keyframes`
   from {
@@ -47,26 +40,6 @@ const Title = styled.div`
   }
 `;
 
-const Image = styled.img`
-  width: 40.15vw;
-
-  @media (min-width: 500px) {
-    width: 30vw;
-  }
-  @media (min-width: 900px) {
-    width: 23.2vw;
-  }
-  @media (min-width: 1100px) {
-    width: 18.7vw;
-  }
-  @media (min-width: 1400px) {
-    width: 16.1vw;
-  }
-  @media (min-width: 1800px) {
-    width: 13.7vw;
-  }
-`;
-
 const Hidden = styled.div`
   position: absolute;
   bottom: 0.1rem;
@@ -74,14 +47,8 @@ const Hidden = styled.div`
   opacity: 0;
 `;
 
-const Tile = styled.div`
-  margin-right: 0.3rem;
-  display: inline-block;
-
-  &:hover {
-    animation: ${getBig} 0.3s 0.1s both;
-    z-index: 1;
-  }
+const Slide = styled.div`
+  padding-right: 4px;
 `;
 
 class HorizontalSlider extends Component {
@@ -90,8 +57,38 @@ class HorizontalSlider extends Component {
 
     const settings = {
       infinite: true,
-      slidesToScroll: 1,
-      variableWidth: true
+      slidesToScroll: 6,
+      slidesToShow: 6,
+      responsive: [
+        {
+          breakpoint: 1400,
+          settings: {
+            slidesToShow: 5,
+            slidesToScroll: 5
+          }
+        },
+        {
+          breakpoint: 1100,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 4
+          }
+        },
+        {
+          breakpoint: 700,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3
+          }
+        },
+        {
+          breakpoint: 400,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        }
+      ]
     };
     return (
       <Wrapper>
@@ -107,13 +104,11 @@ class HorizontalSlider extends Component {
             </Hidden>
           </Title>
         </Link>
-        <Slider class {...settings}>
-          {tileData.map(({ id, img, title }) => (
-            <Tile key={img}>
-              <Link to={`/movie/${id}`}>
-                <Image src={img} alt={title} />
-              </Link>
-            </Tile>
+        <Slider {...settings}>
+          {tileData.map((tile, index) => (
+            <Slide key={index}>
+              <Poster {...tile} />
+            </Slide>
           ))}
         </Slider>
       </Wrapper>

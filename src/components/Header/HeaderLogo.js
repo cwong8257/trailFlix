@@ -5,9 +5,10 @@ import Typography from 'material-ui/Typography';
 
 const styles = theme => ({
   root: {
-    textDecoration: 'none',
-    color: 'red',
-    display: 'inline-block'
+    color: '#e50914',
+    display: 'inline-block',
+    marginRight: '1rem',
+    textDecoration: 'none'
   }
 });
 

@@ -1,57 +1,62 @@
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
-import { Link } from 'react-router-dom';
-import Grid from 'material-ui/Grid';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
-import Icon from 'material-ui/Icon';
+import Hidden from 'material-ui/Hidden';
 
-import HeaderLogo from './HeaderLogo/HeaderLogo';
-import HeaderMenuIcon from './HeaderMenuIcon/HeaderMenuIcon';
-import HeaderSearchBar from './HeaderSearchBar/HeaderSearchBar';
+import HeaderLogo from './HeaderLogo';
+import HeaderNavigation from './HeaderNavigation';
+import HeaderSearchIcon from './HeaderSearchIcon';
+import HeaderSearchBar from './HeaderSearchBar';
+import HeaderNavbar from './HeaderNavbar';
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
-    color: 'white'
+    color: '#e5e5e5'
   },
   appBar: {
-    backgroundColor: '#141414'
-  },
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'space-between'
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
-  },
-  icon: {
-    color: 'inherit'
+    backgroundColor: '#141414',
+    height: '4rem'
   }
 });
 
-const Header = props => {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar className={classes.appBar} position="static" color="inherit">
-        <Toolbar className={classes.toolbar}>
-          <HeaderMenuIcon />
-          <Grid container alignItems="center">
-            <Grid item xs sm md lg>
+class Header extends React.Component {
+  state = {
+    searchFocused: false
+  };
+
+  handleShowSearchBar = () => {
+    this.setState(prevState => ({ searchFocused: !prevState.searchFocused }));
+  };
+
+  render() {
+    const { classes } = this.props;
+    const { searchFocused } = this.state;
+
+    return (
+      <div className={classes.root}>
+        <AppBar className={classes.appBar} position="fixed" color="inherit">
+          <Toolbar>
+            <Hidden smDown>
               <HeaderLogo />
-            </Grid>
-            <Grid item xs sm={6} md={5} lg={4}>
-              <HeaderSearchBar />
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
-};
+              <HeaderNavbar />
+            </Hidden>
+            {!searchFocused && (
+              <Hidden mdUp>
+                <HeaderLogo />
+                <HeaderNavigation />
+              </Hidden>
+            )}
+            {searchFocused ? (
+              <HeaderSearchBar onFocusChange={this.handleShowSearchBar} />
+            ) : (
+              <HeaderSearchIcon onClick={this.handleShowSearchBar} />
+            )}
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
+}
 
 export default withStyles(styles)(Header);
