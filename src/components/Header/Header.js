@@ -8,6 +8,7 @@ import HeaderLogo from './HeaderLogo';
 import HeaderNavigation from './HeaderNavigation';
 import HeaderSearchBar from './HeaderSearchBar';
 import HeaderSearchIcon from './HeaderSearchIcon';
+import HeaderNavBar from './HeaderNavBar';
 
 const styles = theme => ({
   root: {
@@ -38,6 +39,7 @@ class Header extends React.Component {
           <Toolbar>
             <Hidden smDown>
               <HeaderLogo />
+              <HeaderNavBar />
             </Hidden>
             {!searchFocused && (
               <Hidden mdUp>
