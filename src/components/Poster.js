@@ -25,7 +25,7 @@ const TextBox = styled.div`
   width: 100%;
   height 100%;
   overflow: hidden;
-  transition: all 0.3s 0.2s;
+  transition: all 0.5s;
 
   &:hover {
     opacity: 1;

@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
 const styles = theme => ({
@@ -20,10 +18,6 @@ const styles = theme => ({
     }
   }
 });
-
-function doSomething(event) {
-  console.log(event.currentTarget.getAttribute('data-something'));
-}
 
 function FlatButtons(props) {
   const { classes } = props;
@@ -52,9 +46,5 @@ function FlatButtons(props) {
     </div>
   );
 }
-
-FlatButtons.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(FlatButtons);
