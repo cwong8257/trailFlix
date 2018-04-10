@@ -6,8 +6,8 @@ import moment from 'moment';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 
-import Loading from '../Loading';
-import FullWidthGrid from '../FullWidthGrid';
+import Loading from '../Apps/Loading';
+import FullWidthGrid from '../Apps/FullWidthGrid';
 
 const styles = theme => ({
   root: {

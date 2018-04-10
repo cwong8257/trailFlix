@@ -4,8 +4,8 @@ import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 import moment from 'moment';
 
-import HorizontalSlider from '../HorizontalSlider';
-import Loading from '../Loading';
+import HorizontalSlider from '../Apps/HorizontalSlider';
+import Loading from '../Apps/Loading';
 import { getPopular, getUpcoming, getTopRated } from '../../tmdb/tmdb';
 
 const styles = theme => ({

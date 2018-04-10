@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import Typography from 'material-ui/Typography';
 import Grid from 'material-ui/Grid';
 

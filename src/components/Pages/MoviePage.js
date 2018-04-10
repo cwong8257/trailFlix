@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
-import YouTube from 'react-youtube';
 import moment from 'moment';
 import Grid from 'material-ui/Grid';
 import { withStyles } from 'material-ui/styles';
@@ -13,10 +12,11 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Hidden from 'material-ui/Hidden';
 
+import Loading from '../Apps/Loading';
+import SingleLineGridList from '../Apps/SingleLineGridList';
+import Rating from '../Apps/Rating';
+import Video from '../Apps/Video';
 import { history } from '../../routers/AppRouter';
-import Loading from '../Loading';
-import SingleLineGridList from '../SingleLineGridList';
-import Rating from '../Rating';
 import { getMovieDetails, getMovieTrailer, getSimilar } from '../../tmdb/tmdb';
 
 const styles = theme => ({
@@ -25,11 +25,6 @@ const styles = theme => ({
   },
   link: {
     textDecoration: 'none'
-  },
-  media: {
-    width: '100%',
-    height: '56.25vw',
-    maxHeight: '50rem'
   },
   card: {
     padding: '0.5rem'
@@ -98,25 +93,10 @@ class MoviePage extends React.Component {
       const year = release_date && moment(release_date).format('YYYY');
       const similarTileData = similar && similar.map(this.moviesToTileData);
       const genresList = genres && genres.map(({ name }, index) => name + (index === genres.length - 1 ? '' : ', '));
-      const opts = {
-        width: '100%',
-        height: '100%',
-        playerVars: {
-          autoplay: 1,
-          iv_load_policy: 3,
-          modestbranding: 1,
-          rel: 0,
-          showinfo: 0
-        }
-      };
 
       return (
         <div className={classes.root}>
-          {youtubeId && (
-            <div className={classes.media}>
-              <YouTube videoId={youtubeId} opts={opts} />
-            </div>
-          )}
+          {youtubeId && <Video videoId={youtubeId} />}
           <Card className={classes.card}>
             <Grid container justify="center">
               <Grid item xs lg={10}>

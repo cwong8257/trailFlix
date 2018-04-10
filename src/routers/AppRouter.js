@@ -9,7 +9,6 @@ import MostPopularPage from '../components/Pages/MostPopularPage';
 import UpcomingPage from '../components/Pages/UpcomingPage';
 import TopRatedPage from '../components/Pages/TopRatedPage';
 import NotFoundPage from '../components/Pages/NotFoundPage';
-import TestPage from '../components/Pages/TestPage';
 
 export const history = createHistory();
 
@@ -28,7 +27,6 @@ const AppRouter = () => (
         <Route path="/most_popular" component={MostPopularPage} />
         <Route path="/upcoming" component={UpcomingPage} />
         <Route path="/top_rated" component={TopRatedPage} />
-        <Route path="/test" component={TestPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>
