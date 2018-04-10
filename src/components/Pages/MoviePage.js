@@ -14,28 +14,25 @@ import Divider from 'material-ui/Divider';
 import Hidden from 'material-ui/Hidden';
 
 import { history } from '../../routers/AppRouter';
-import CircularIndeterminate from '../CircularIndeterminate';
+import Loading from '../Loading';
 import SingleLineGridList from '../SingleLineGridList';
 import Rating from '../Rating';
 import { getMovieDetails, getMovieTrailer, getSimilar } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignContent: 'center',
     paddingTop: '4rem'
   },
   link: {
     textDecoration: 'none'
   },
-  mediaContainer: {
+  media: {
     width: '100%',
     height: '56.25vw',
     maxHeight: '50rem'
   },
   card: {
-    marginTop: '20px'
+    padding: '0.5rem'
   },
   rating: {
     float: 'right'
@@ -115,16 +112,14 @@ class MoviePage extends React.Component {
 
       return (
         <div className={classes.root}>
-          <Grid container justify="center">
-            {youtubeId && (
-              <Grid item xs={12}>
-                <div className={classes.mediaContainer}>
-                  <YouTube videoId={youtubeId} opts={opts} />
-                </div>
-              </Grid>
-            )}
-            <Grid item xs={12} md={10} lg={8}>
-              <Card className={classes.card}>
+          {youtubeId && (
+            <div className={classes.media}>
+              <YouTube videoId={youtubeId} opts={opts} />
+            </div>
+          )}
+          <Card className={classes.card}>
+            <Grid container justify="center">
+              <Grid item xs lg={10}>
                 <CardContent>
                   <div className={classes.rating}>
                     <Hidden xsDown>
@@ -142,7 +137,6 @@ class MoviePage extends React.Component {
                     </Typography>
                   )}
                 </CardContent>
-                <Divider />
                 <CardContent>
                   <Typography component="p">{overview}</Typography>
                 </CardContent>
@@ -160,27 +154,27 @@ class MoviePage extends React.Component {
                     </Button>
                   )}
                 </CardActions>
+                <CardContent>
+                  <Divider />
+                </CardContent>
                 {similarTileData &&
                   similarTileData.length > 0 && (
-                    <div>
-                      <Divider />
-                      <CardContent>
-                        <Typography gutterBottom variant="subheading" component="h3">
-                          More Like This...
-                        </Typography>
-                        <SingleLineGridList tileData={similarTileData} />
-                      </CardContent>
-                    </div>
+                    <CardContent>
+                      <Typography gutterBottom variant="subheading" component="h3">
+                        More Like This...
+                      </Typography>
+                      <SingleLineGridList tileData={similarTileData} />
+                    </CardContent>
                   )}
-              </Card>
+              </Grid>
             </Grid>
-          </Grid>
+          </Card>
         </div>
       );
     }
     return (
       <div className={classes.root}>
-        <CircularIndeterminate />
+        <Loading />
       </div>
     );
   }

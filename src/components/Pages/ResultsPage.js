@@ -18,7 +18,7 @@ const styles = theme => ({
     justifyContent: 'center',
     flexGrow: 1,
     overflow: 'hidden',
-    padding: `4rem ${theme.spacing.unit * 3}px`
+    padding: '4rem 0rem'
   },
   title: {
     margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`
@@ -34,10 +34,7 @@ const styles = theme => ({
 });
 
 class ResultsPage extends React.Component {
-  state = {
-    dense: false,
-    secondary: true
-  };
+  state = {};
 
   loadAllData = query => {
     getMovieList(query)
@@ -49,20 +46,20 @@ class ResultsPage extends React.Component {
   };
 
   componentDidMount() {
-    const parsed = qs.parse(this.props.location.search);
-    this.loadAllData(parsed.search_query);
+    const { search_query } = qs.parse(this.props.location.search);
+    this.loadAllData(search_query);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.search !== this.props.location.search) {
-      const parsed = qs.parse(nextProps.location.search);
-      this.loadAllData(parsed.search_query);
+      const { search_query } = qs.parse(this.props.location.search);
+      this.loadAllData(search_query);
     }
   }
 
   render() {
     const { classes, config } = this.props;
-    const { dense, secondary, query, movies } = this.state;
+    const { query, movies } = this.state;
 
     return (
       <div className={classes.root}>
@@ -79,11 +76,11 @@ class ResultsPage extends React.Component {
                   ? config.images.secure_base_url + config.images.poster_sizes[0] + poster_path
                   : `https://via.placeholder.com/90x130?text=${title}`;
                 return (
-                  <List dense={dense} key={id}>
+                  <List key={id}>
                     <Link className={classes.link} to={`/movie/${id}`}>
                       <ListItem classes={{ root: classes.listItem }} button disableGutters>
                         <img src={img} alt={title} />
-                        <ListItemText primary={primary} secondary={secondary ? overview : null} />
+                        <ListItemText primary={primary} secondary={overview} />
                       </ListItem>
                     </Link>
                   </List>

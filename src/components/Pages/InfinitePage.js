@@ -1,11 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Typography from 'material-ui/Typography';
+import compose from 'recompose/compose';
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
+import { withStyles } from 'material-ui/styles';
+import Typography from 'material-ui/Typography';
 
-import CircularIndeterminate from '../CircularIndeterminate';
+import Loading from '../Loading';
 import FullWidthGrid from '../FullWidthGrid';
+
+const styles = theme => ({
+  root: {
+    padding: '6rem 2rem 2rem 2rem',
+    backgroundColor: '#141414',
+    color: '#e5e5e5'
+  }
+});
 
 class InfinitePage extends React.Component {
   state = {
@@ -32,38 +42,49 @@ class InfinitePage extends React.Component {
   loadItems = page => {
     const getMovies = this.props.loadMore;
 
-    getMovies(page).then(response => {
-      const newMovies = response.results;
-      const hasMoreItems = page !== 1000;
+    getMovies(page)
+      .then(response => {
+        const newMovies = response.results;
+        const hasMoreItems = page !== 1000;
 
-      this.setState(({ movies }) => ({
-        movies: [...movies, ...newMovies],
-        hasMoreItems
-      }));
-    });
+        this.setState(({ movies }) => ({
+          movies: [...movies, ...newMovies],
+          hasMoreItems
+        }));
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   render() {
     const { classes, config, title } = this.props;
     const { movies } = this.state;
-    const loader = <div key={3}>Loading ...</div>;
+    const tileData = movies && movies.filter(this.filterMovies).map(this.mapMovies);
 
-    if (movies) {
-      const tileData = movies.filter(this.filterMovies).map(this.mapMovies);
-
-      return (
-        <InfiniteScroll pageStart={0} loadMore={this.loadItems} hasMore={this.state.hasMoreItems} loader={loader}>
+    return (
+      <div className={classes.root}>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={this.loadItems}
+          hasMore={this.state.hasMoreItems}
+          loader={<Loading key="3" />}
+        >
           <Typography color="inherit" variant="display1" component="h1" gutterBottom>
             {title}
           </Typography>
-          <FullWidthGrid tileData={tileData} />
+          {tileData && <FullWidthGrid tileData={tileData} />}
         </InfiniteScroll>
-      );
-    }
-    return <CircularIndeterminate />;
+      </div>
+    );
   }
 }
 
-export default connect(state => ({
-  config: state.config
-}))(InfinitePage);
+export default compose(
+  withStyles(styles, {
+    name: 'InfinitePage'
+  }),
+  connect(state => ({
+    config: state.config
+  }))
+)(InfinitePage);

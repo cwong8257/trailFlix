@@ -10,7 +10,7 @@ const FullWidthGrid = ({ classes, tileData }) => {
   return (
     <Grid container spacing={8}>
       {tileData.map((tile, index) => (
-        <Grid item key={index} xs={6} sm={3} lg={2}>
+        <Grid item key={index} xs={6} sm={4} md={3} xl={2}>
           <Poster {...tile} />
         </Grid>
       ))}

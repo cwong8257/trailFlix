@@ -2,26 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Tabs, { Tab } from 'material-ui/Tabs';
-import Grid from 'material-ui/Grid';
 import moment from 'moment';
 
 import HorizontalSlider from '../HorizontalSlider';
-import FullWidthGrid from '../FullWidthGrid';
-import CircularIndeterminate from '../CircularIndeterminate';
+import Loading from '../Loading';
 import { getPopular, getUpcoming, getTopRated } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {
-    padding: '4rem 2rem',
+    padding: '6rem 2rem 2rem 2rem',
     backgroundColor: '#141414',
     color: '#e5e5e5'
-  },
-  loading: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 
@@ -74,11 +65,7 @@ class HomePage extends React.Component {
         </div>
       );
     }
-    return (
-      <div className={classes.loading}>
-        <CircularIndeterminate />
-      </div>
-    );
+    return <Loading />;
   }
 }
 
