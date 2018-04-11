@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
+import qs from 'querystringify';
 
 import Loading from '../Apps/Loading';
 import FullWidthGrid from '../Apps/FullWidthGrid';
@@ -40,11 +41,10 @@ class InfinitePage extends React.Component {
   filterMovies = ({ poster_path }) => poster_path;
 
   loadItems = page => {
-    const getMovies = this.props.loadMore;
+    const { loadMore, query } = this.props;
 
-    getMovies(page)
-      .then(response => {
-        const newMovies = response.results;
+    loadMore(page, query)
+      .then(({ results: newMovies }) => {
         const hasMoreItems = page !== 1000;
 
         this.setState(({ movies }) => ({
@@ -57,14 +57,21 @@ class InfinitePage extends React.Component {
       });
   };
 
+  componentWillReceiveProps({ query }) {
+    if (query) {
+      this.setState(() => ({ movies: [] }));
+    }
+  }
+
   render() {
-    const { classes, config, title } = this.props;
+    const { classes, config, title, query } = this.props;
     const { movies } = this.state;
     const tileData = movies && movies.filter(this.filterMovies).map(this.mapMovies);
 
     return (
       <div className={classes.root}>
         <InfiniteScroll
+          key={query}
           pageStart={0}
           loadMore={this.loadItems}
           hasMore={this.state.hasMoreItems}

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   width: 100%;
   height: 56.25vw;
-  maxheight: 50rem;
+  max-height: 50rem;
 `;
 
 const opts = {

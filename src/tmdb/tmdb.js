@@ -54,9 +54,9 @@ export const getGenreList = () => {
   );
 };
 
-export const getMovieList = query => {
+export const getMovieList = (page, query) => {
   return fetch(
-    `https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&query=${query}&language=en-US&api_key=${key}`,
+    `https://api.themoviedb.org/3/search/movie?include_adult=false&page=${page}&query=${query}&language=en-US&api_key=${key}`,
     { mode: 'cors' }
   ).then(response => {
     return response.json();
@@ -121,6 +121,14 @@ export const getPersonMovieCredits = id => {
 
 export const getPersonImages = id => {
   return fetch(`https://api.themoviedb.org/3/person/${id}/tagged_images?api_key=${key}&language=en-US`, {
+    mode: 'cors'
+  }).then(response => {
+    return response.json();
+  });
+};
+
+export const getMovieReviews = (id, page = 1) => {
+  return fetch(`https://api.themoviedb.org/3/movie/354912/reviews?api_key=${key}&language=en-US&page=${page}`, {
     mode: 'cors'
   }).then(response => {
     return response.json();

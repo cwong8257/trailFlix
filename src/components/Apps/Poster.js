@@ -7,6 +7,7 @@ import Grid from 'material-ui/Grid';
 const Tile = styled.div`
   display: block;
   position: relative;
+  margin-bottom: 4rem;
 `;
 
 const Image = styled.img`

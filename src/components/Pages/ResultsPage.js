@@ -3,101 +3,35 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
 import qs from 'querystringify';
-import moment from 'moment';
 
+import InfinitePage from './InfinitePage';
 import { getMovieList } from '../../tmdb/tmdb';
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexGrow: 1,
-    overflow: 'hidden',
-    padding: '4rem 0rem'
-  },
-  title: {
-    margin: `${theme.spacing.unit * 4}px 0 ${theme.spacing.unit * 2}px`
-  },
-  listItem: {
-    alignItems: 'flex-start',
-    height: '158px',
-    overflow: 'hidden'
-  },
-  link: {
-    textDecoration: 'none'
-  }
-});
 
 class ResultsPage extends React.Component {
   state = {};
 
-  loadAllData = query => {
-    getMovieList(query)
-      .then(response => {
-        const movies = response.results;
-        this.setState(() => ({ movies, query }));
-      })
-      .catch(err => console.log(err));
-  };
-
   componentDidMount() {
-    const { search_query } = qs.parse(this.props.location.search);
-    this.loadAllData(search_query);
+    const { search_query: query } = qs.parse(this.props.location.search);
+    this.setState(() => ({ query }));
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.search !== this.props.location.search) {
-      const { search_query } = qs.parse(this.props.location.search);
-      this.loadAllData(search_query);
+      const { search_query: query } = qs.parse(nextProps.location.search);
+      this.setState(() => ({ query }));
     }
   }
 
   render() {
     const { classes, config } = this.props;
-    const { query, movies } = this.state;
+    const { query } = this.state;
+    const title = `Results for "${query}"`;
 
-    return (
-      <div className={classes.root}>
-        <Grid container justify="center" wrap="nowrap">
-          <Grid item xs={12} md={10} lg={8} zeroMinWidth>
-            <Typography variant="title" className={classes.title}>
-              {`Results for "${query}"`}
-            </Typography>
-            {movies &&
-              movies.map(({ title, release_date, id, poster_path, overview }) => {
-                const year = release_date && moment(release_date).format('YYYY');
-                const primary = year ? `${title} (${year})` : `${title}`;
-                const img = poster_path
-                  ? config.images.secure_base_url + config.images.poster_sizes[0] + poster_path
-                  : `https://via.placeholder.com/90x130?text=${title}`;
-                return (
-                  <List key={id}>
-                    <Link className={classes.link} to={`/movie/${id}`}>
-                      <ListItem classes={{ root: classes.listItem }} button disableGutters>
-                        <img src={img} alt={title} />
-                        <ListItemText primary={primary} secondary={overview} />
-                      </ListItem>
-                    </Link>
-                  </List>
-                );
-              })}
-          </Grid>
-        </Grid>
-      </div>
-    );
+    return <div>{query && <InfinitePage loadMore={getMovieList} title={title} query={query} />}</div>;
   }
 }
 
-export default compose(
-  withStyles(styles, {
-    name: 'ResultsPage'
-  }),
-  connect(state => ({
-    config: state.config
-  }))
-)(ResultsPage);
+export default connect(state => ({
+  config: state.config
+}))(ResultsPage);

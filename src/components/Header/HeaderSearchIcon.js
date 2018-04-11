@@ -17,7 +17,7 @@ const HeaderSearchIcon = props => {
   const { classes, onClick } = props;
   return (
     <div className={classes.root}>
-      <IconButton color="inherit" aria-label="Menu" onClick={onClick}>
+      <IconButton color="inherit" aria-label="Search" onClick={onClick}>
         <Icon className={classes.icon}>search</Icon>
       </IconButton>
     </div>

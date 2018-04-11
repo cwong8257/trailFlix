@@ -21,8 +21,7 @@ const unhide = keyframes`
 const styles = theme => ({
   root: {
     backgroundColor: 'inherit',
-    color: 'inherit',
-    marginBottom: '3.6rem'
+    color: 'inherit'
   },
   hidden: {
     position: 'absolute',

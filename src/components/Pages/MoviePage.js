@@ -12,12 +12,14 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import Hidden from 'material-ui/Hidden';
 
+import HorizontalSlider from '../Apps/HorizontalSlider';
 import Loading from '../Apps/Loading';
 import SingleLineGridList from '../Apps/SingleLineGridList';
 import Rating from '../Apps/Rating';
 import Video from '../Apps/Video';
 import { history } from '../../routers/AppRouter';
-import { getMovieDetails, getMovieTrailer, getSimilar } from '../../tmdb/tmdb';
+import { getMovieDetails, getMovieTrailer, getSimilar, getMovieReviews } from '../../tmdb/tmdb';
+import VerticalList from '../Apps/VerticalList';
 
 const styles = theme => ({
   root: {
@@ -35,17 +37,20 @@ const styles = theme => ({
 });
 
 class MoviePage extends React.Component {
-  moviesToTileData = movie => {
+  mapMovies = ({ backdrop_path, title: primary, id, release_date }) => {
     const { config } = this.props;
-    const { backdrop_path, title, id } = movie;
-    const img = config.images.secure_base_url + config.images.backdrop_sizes[1] + backdrop_path;
+    const img = config.images.secure_base_url + config.images.backdrop_sizes[0] + backdrop_path;
+    const secondary = release_date && moment(release_date).format('YYYY');
 
     return {
+      id,
       img,
-      title,
-      id
+      primary,
+      secondary
     };
   };
+
+  filterMovies = ({ backdrop_path }) => backdrop_path;
 
   loadAllData = id => {
     getMovieDetails(id)
@@ -60,6 +65,12 @@ class MoviePage extends React.Component {
       .then(response => {
         const similar = response.results;
         this.setState(() => ({ similar }));
+        return getMovieReviews(id);
+      })
+      .then(response => {
+        const reviews = response.results;
+        console.log(reviews);
+        this.setState(() => ({ reviews }));
       })
       .catch(err => console.log(err));
   };
@@ -86,12 +97,13 @@ class MoviePage extends React.Component {
         homepage,
         release_date,
         genres,
+        reviews,
         similar,
         vote_average,
         vote_count
       } = this.state;
       const year = release_date && moment(release_date).format('YYYY');
-      const similarTileData = similar && similar.map(this.moviesToTileData);
+      const similarTileData = similar && similar.filter(this.filterMovies).map(this.mapMovies);
       const genresList = genres && genres.map(({ name }, index) => name + (index === genres.length - 1 ? '' : ', '));
 
       return (
@@ -99,53 +111,64 @@ class MoviePage extends React.Component {
           {youtubeId && <Video videoId={youtubeId} />}
           <Card className={classes.card}>
             <Grid container justify="center">
-              <Grid item xs lg={10}>
-                <CardContent>
-                  <div className={classes.rating}>
-                    <Hidden xsDown>
-                      <Rating rating={vote_average} count={vote_count} />
-                    </Hidden>
-                  </div>
-
-                  <Typography gutterBottom variant="title" component="h2">
-                    {title} {year && `(${year})`}
-                  </Typography>
-
-                  {genresList && (
-                    <Typography variant="subheading" component="p">
-                      {genresList}
-                    </Typography>
-                  )}
-                </CardContent>
-                <CardContent>
-                  <Typography component="p">{overview}</Typography>
-                </CardContent>
-                <CardActions>
-                  <Button size="small" color="primary">
-                    <a className={classes.link} target="_blank" href={`http://www.imdb.com/title/${imdb_id}/`}>
-                      IMDB
-                    </a>
-                  </Button>
-                  {homepage && (
-                    <Button size="small" color="primary">
-                      <a className={classes.link} target="_blank" href={homepage}>
-                        Home Page
-                      </a>
-                    </Button>
-                  )}
-                </CardActions>
-                <CardContent>
-                  <Divider />
-                </CardContent>
-                {similarTileData &&
-                  similarTileData.length > 0 && (
+              <Grid item xs lg={10} xl={9}>
+                <Grid container direction="row">
+                  <Grid item xs={12} sm={7} lg={8}>
                     <CardContent>
-                      <Typography gutterBottom variant="subheading" component="h3">
-                        More Like This...
+                      <div className={classes.rating}>
+                        <Hidden xsDown>
+                          <Rating rating={vote_average} count={vote_count} />
+                        </Hidden>
+                      </div>
+                      <Typography gutterBottom variant="title" component="h2">
+                        {title} {year && `(${year})`}
                       </Typography>
-                      <SingleLineGridList tileData={similarTileData} />
+                      {genresList && (
+                        <Typography variant="subheading" component="p">
+                          {genresList}
+                        </Typography>
+                      )}
                     </CardContent>
+                    <CardContent>
+                      <Divider />
+                    </CardContent>
+                    <CardContent>
+                      <Typography component="p">{overview}</Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small" color="primary">
+                        <a className={classes.link} target="_blank" href={`http://www.imdb.com/title/${imdb_id}/`}>
+                          IMDB
+                        </a>
+                      </Button>
+                      {homepage && (
+                        <Button size="small" color="primary">
+                          <a className={classes.link} target="_blank" href={homepage}>
+                            Home Page
+                          </a>
+                        </Button>
+                      )}
+                    </CardActions>
+                    <CardContent>
+                      <Divider />
+                    </CardContent>
+                    <CardContent>
+                      <Divider />
+                    </CardContent>
+                  </Grid>
+                  {similarTileData ? (
+                    <Grid item xs={12} sm={5} lg={4}>
+                      <CardContent>
+                        <Typography gutterBottom variant="subheading" component="h3">
+                          More Like This...
+                        </Typography>
+                        <VerticalList tileData={similarTileData} />
+                      </CardContent>
+                    </Grid>
+                  ) : (
+                    <Loading />
                   )}
+                </Grid>
               </Grid>
             </Grid>
           </Card>
