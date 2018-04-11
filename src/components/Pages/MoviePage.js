@@ -20,6 +20,7 @@ import Video from '../Apps/Video';
 import { history } from '../../routers/AppRouter';
 import { getMovieDetails, getMovieTrailer, getSimilar, getMovieReviews } from '../../tmdb/tmdb';
 import VerticalList from '../Apps/VerticalList';
+import ReviewsList from '../Apps/ReviewsList';
 
 const styles = theme => ({
   root: {
@@ -120,7 +121,7 @@ class MoviePage extends React.Component {
                           <Rating rating={vote_average} count={vote_count} />
                         </Hidden>
                       </div>
-                      <Typography gutterBottom variant="title" component="h2">
+                      <Typography gutterBottom variant="headline" component="h2">
                         {title} {year && `(${year})`}
                       </Typography>
                       {genresList && (
@@ -130,17 +131,16 @@ class MoviePage extends React.Component {
                       )}
                     </CardContent>
                     <CardContent>
-                      <Divider />
-                    </CardContent>
-                    <CardContent>
                       <Typography component="p">{overview}</Typography>
                     </CardContent>
                     <CardActions>
-                      <Button size="small" color="primary">
-                        <a className={classes.link} target="_blank" href={`http://www.imdb.com/title/${imdb_id}/`}>
-                          IMDB
-                        </a>
-                      </Button>
+                      {imdb_id && (
+                        <Button size="small" color="primary">
+                          <a className={classes.link} target="_blank" href={`http://www.imdb.com/title/${imdb_id}/`}>
+                            IMDB
+                          </a>
+                        </Button>
+                      )}
                       {homepage && (
                         <Button size="small" color="primary">
                           <a className={classes.link} target="_blank" href={homepage}>
@@ -152,9 +152,7 @@ class MoviePage extends React.Component {
                     <CardContent>
                       <Divider />
                     </CardContent>
-                    <CardContent>
-                      <Divider />
-                    </CardContent>
+                    <CardContent>{reviews ? <ReviewsList reviews={reviews} /> : <Loading />}</CardContent>
                   </Grid>
                   {similarTileData ? (
                     <Grid item xs={12} sm={5} lg={4}>

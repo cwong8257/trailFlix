@@ -128,7 +128,7 @@ export const getPersonImages = id => {
 };
 
 export const getMovieReviews = (id, page = 1) => {
-  return fetch(`https://api.themoviedb.org/3/movie/354912/reviews?api_key=${key}&language=en-US&page=${page}`, {
+  return fetch(`https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${key}&language=en-US&page=${page}`, {
     mode: 'cors'
   }).then(response => {
     return response.json();
