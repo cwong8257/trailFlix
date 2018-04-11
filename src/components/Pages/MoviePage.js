@@ -157,14 +157,11 @@ class MoviePage extends React.Component {
                         <ReviewsList reviews={reviews} />
                       </CardContent>
                     )}
-                    {similarTileData &&
-                      similarTileData.length > 0 && (
-                        <Hidden smUp>
-                          <CardContent>
-                            <Divider />
-                          </CardContent>
-                        </Hidden>
-                      )}
+                    <Hidden smUp>
+                      <CardContent>
+                        <Divider />
+                      </CardContent>
+                    </Hidden>
                   </Grid>
                   <Grid item xs={12} sm={5} lg={4}>
                     <CardContent>
