@@ -114,7 +114,7 @@ class MoviePage extends React.Component {
             <Grid container justify="center">
               <Grid item xs lg={10} xl={9}>
                 <Grid container direction="row">
-                  <Grid item xs={12} sm={7} lg={8}>
+                  <Grid item xs>
                     <CardContent>
                       <div className={classes.rating}>
                         <Hidden xsDown>
@@ -152,20 +152,32 @@ class MoviePage extends React.Component {
                     <CardContent>
                       <Divider />
                     </CardContent>
-                    <CardContent>{reviews ? <ReviewsList reviews={reviews} /> : <Loading />}</CardContent>
-                  </Grid>
-                  {similarTileData ? (
-                    <Grid item xs={12} sm={5} lg={4}>
+                    {reviews && (
                       <CardContent>
-                        <Typography gutterBottom variant="subheading" component="h3">
-                          More Like This...
-                        </Typography>
-                        <VerticalList tileData={similarTileData} />
+                        <ReviewsList reviews={reviews} />
                       </CardContent>
-                    </Grid>
-                  ) : (
-                    <Loading />
-                  )}
+                    )}
+                    {similarTileData &&
+                      similarTileData.length > 0 && (
+                        <Hidden smUp>
+                          <CardContent>
+                            <Divider />
+                          </CardContent>
+                        </Hidden>
+                      )}
+                  </Grid>
+                  <Grid item xs={12} sm={5} lg={4}>
+                    <CardContent>
+                      <Typography variant="subheading" component="h3" gutterBottom>
+                        More Like This...
+                      </Typography>
+                      {similarTileData && similarTileData.length > 0 ? (
+                        <VerticalList tileData={similarTileData} />
+                      ) : (
+                        <Typography variant="body1">Similar movies not found</Typography>
+                      )}
+                    </CardContent>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
