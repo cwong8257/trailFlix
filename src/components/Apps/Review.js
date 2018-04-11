@@ -49,7 +49,11 @@ class Review extends React.Component {
               <a className={classes.link} target="_blank" href={url}>
                 <Typography variant="body2">{author}</Typography>
               </a>
-              {!expanded && <Typography variant="body1">{`${content.substring(0, 200)}...`}</Typography>}
+              {!expanded && (
+                <Typography variant="body1" noWrap>
+                  {content}
+                </Typography>
+              )}
               <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                 <Typography variant="body1">{content}</Typography>
               </Collapse>

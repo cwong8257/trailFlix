@@ -45,12 +45,18 @@ class InfinitePage extends React.Component {
 
     loadMore(page, query)
       .then(({ results: newMovies }) => {
-        const hasMoreItems = page !== 1000;
+        const hasMoreItems = page !== 1000 && newMovies.length > 0;
 
-        this.setState(({ movies }) => ({
-          movies: [...movies, ...newMovies],
-          hasMoreItems
-        }));
+        if (hasMoreItems) {
+          this.setState(({ movies }) => ({
+            movies: [...movies, ...newMovies],
+            hasMoreItems
+          }));
+        } else {
+          this.setState(() => ({
+            hasMoreItems
+          }));
+        }
       })
       .catch(error => {
         console.log(error);
@@ -59,7 +65,7 @@ class InfinitePage extends React.Component {
 
   componentWillReceiveProps({ query }) {
     if (query) {
-      this.setState(() => ({ movies: [] }));
+      this.setState(() => ({ movies: [], hasMoreItems: true }));
     }
   }
 
