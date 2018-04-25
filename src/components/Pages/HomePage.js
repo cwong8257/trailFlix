@@ -33,16 +33,13 @@ class HomePage extends React.Component {
     };
   };
 
-  componentDidMount() {
-    getPopular().then(mostPopular => {
-      this.setState(() => ({ mostPopular }));
-    });
-    getUpcoming().then(upcoming => {
-      this.setState(() => ({ upcoming }));
-    });
-    getTopRated().then(topRated => {
-      this.setState(() => ({ topRated }));
-    });
+  async componentDidMount() {
+    const [mostPopular, upcoming, topRated] = await Promise.all([
+      getPopular().then(mostPopular),
+      getUpcoming().then(upcoming),
+      getTopRated().then(topRated)
+    ]);
+    this.setState(() => ({ mostPopular, upcoming, topRated }));
   }
 
   render() {

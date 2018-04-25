@@ -47,7 +47,7 @@ export const getMovieReviews = async (id, page = 1) => {
 };
 
 export const getMovieList = async (page, query) => {
-  const response = await tmdb.get(`/movie?include_adult=false&page=${page}&query=${query}`);
+  const response = await tmdb.get(`/search/movie?include_adult=false&page=${page}&query=${query}`);
   return response.data.results;
 };
 

@@ -40,27 +40,21 @@ class InfinitePage extends React.Component {
 
   filterMovies = ({ poster_path }) => poster_path;
 
-  loadItems = page => {
+  loadItems = async page => {
     const { loadMore, query } = this.props;
+    const newMovies = await loadMore(page, query);
+    const hasMoreItems = page !== 1000 && newMovies.length > 0;
 
-    loadMore(page, query)
-      .then(newMovies => {
-        const hasMoreItems = page !== 1000 && newMovies.length > 0;
-
-        if (hasMoreItems) {
-          this.setState(({ movies }) => ({
-            movies: [...movies, ...newMovies],
-            hasMoreItems
-          }));
-        } else {
-          this.setState(() => ({
-            hasMoreItems
-          }));
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (hasMoreItems) {
+      this.setState(({ movies }) => ({
+        movies: [...movies, ...newMovies],
+        hasMoreItems
+      }));
+    } else {
+      this.setState(() => ({
+        hasMoreItems
+      }));
+    }
   };
 
   componentWillReceiveProps({ query }) {
