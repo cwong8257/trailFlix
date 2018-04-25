@@ -53,27 +53,20 @@ class MoviePage extends React.Component {
 
   filterMovies = ({ backdrop_path }) => backdrop_path;
 
-  loadAllData = id => {
-    getMovieDetails(id)
-      .then(movie => {
-        this.setState(() => ({ ...movie }));
-        return getMovieTrailer(id);
-      })
-      .then(youtubeId => {
-        this.setState(() => ({ youtubeId }));
-        return getSimilar(id);
-      })
-      .then(response => {
-        const similar = response.results;
-        this.setState(() => ({ similar }));
-        return getMovieReviews(id);
-      })
-      .then(response => {
-        const reviews = response.results;
-        console.log(reviews);
-        this.setState(() => ({ reviews }));
-      })
-      .catch(err => console.log(err));
+  loadAllData = async id => {
+    const [movie, youtubeId, similar, reviews] = await Promise.all([
+      getMovieDetails(id),
+      getMovieTrailer(id),
+      getSimilar(id),
+      getMovieReviews(id)
+    ]);
+
+    this.setState(() => ({
+      ...movie,
+      youtubeId,
+      similar,
+      reviews
+    }));
   };
 
   componentDidMount() {

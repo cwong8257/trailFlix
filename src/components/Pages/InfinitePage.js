@@ -44,7 +44,7 @@ class InfinitePage extends React.Component {
     const { loadMore, query } = this.props;
 
     loadMore(page, query)
-      .then(({ results: newMovies }) => {
+      .then(newMovies => {
         const hasMoreItems = page !== 1000 && newMovies.length > 0;
 
         if (hasMoreItems) {

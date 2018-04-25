@@ -1,136 +1,97 @@
-const key = process.env.TMDB_API_KEY;
+import axios from 'axios';
 
-export const getMovieTrailer = id => {
-  return fetch(`https://api.themoviedb.org/3/movie/${id}/videos?api_key=${key}&language=en-US`, { mode: 'cors' })
-    .then(response => {
-      return response.json();
-    })
-    .then(({ results }) => {
-      const types = ['Trailer', 'Teaser', 'Featurette', 'Clip'];
+const tmdb = axios.create({
+  baseURL: 'https://api.themoviedb.org/3',
+  timeout: 12000,
+  params: {
+    api_key: process.env.TMDB_API_KEY,
+    language: 'en-US'
+  }
+});
 
-      for (let i = 0; i < types.length; i++) {
-        let type = types[i];
+export const getMovieDetails = async id => {
+  const response = await tmdb.get(`/movie/${id}`);
+  return response.data;
+};
 
-        for (let j = 0; j < results.length; j++) {
-          let result = results[j];
+export const getMovieCredits = async id => {
+  const response = await tmdb.get(`/movie/${id}/credits`);
+  return response.data.results;
+};
 
-          if (result.site === 'YouTube' && result.type === type) {
-            return result.key;
-          }
-        }
+export const getSimilar = async id => {
+  const response = await tmdb.get(`/movie/${id}/similar`);
+  return response.data.results;
+};
+
+export const getMovieTrailer = async id => {
+  const response = await tmdb.get(`/movie/${id}/videos`);
+  const trailers = response.data.results;
+  const types = ['Trailer', 'Teaser', 'Featurette', 'Clip'];
+
+  for (let i = 0; i < types.length; i++) {
+    let type = types[i];
+
+    for (let j = 0; j < trailers.length; j++) {
+      let trailer = trailers[j];
+
+      if (trailer.site === 'YouTube' && trailer.type === type) {
+        return trailer.key;
       }
-    });
-};
-
-export const getMovieCredits = id => {
-  return fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${key}`, {
-    mode: 'cors'
-  }).then(response => {
-    return response.json();
-  });
-};
-
-export const getSimilar = id => {
-  return fetch(`https://api.themoviedb.org/3/movie/${id}/similar?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
-    response => {
-      return response.json();
     }
-  );
+  }
+};
+export const getMovieReviews = async (id, page = 1) => {
+  const response = await tmdb.get(`/movie/${id}/reviews?page=${page}`);
+  return response.data.results;
 };
 
-export const getConfiguration = () => {
-  return fetch(`https://api.themoviedb.org/3/configuration?api_key=${key}`, {
-    mode: 'cors'
-  }).then(response => {
-    return response.json();
-  });
+export const getMovieList = async (page, query) => {
+  const response = await tmdb.get(`/movie?include_adult=false&page=${page}&query=${query}`);
+  return response.data.results;
 };
 
-export const getGenreList = () => {
-  return fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
-    response => {
-      return response.json();
-    }
-  );
+export const getNowPlaying = async page => {
+  const response = await tmdb.get(`/movie/now_playing?page=${page}`);
+  return response.data.results;
 };
 
-export const getMovieList = (page, query) => {
-  return fetch(
-    `https://api.themoviedb.org/3/search/movie?include_adult=false&page=${page}&query=${query}&language=en-US&api_key=${key}`,
-    { mode: 'cors' }
-  ).then(response => {
-    return response.json();
-  });
+export const getUpcoming = async page => {
+  const response = await tmdb.get(`/movie/upcoming?page=${page}`);
+  return response.data.results;
 };
 
-export const getNowPlaying = () => {
-  return fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
-    response => {
-      return response.json();
-    }
-  );
+export const getPopular = async page => {
+  const response = await tmdb.get(`/movie/popular?page=${page}`);
+  return response.data.results;
 };
 
-export const getUpcoming = page => {
-  return fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${key}&language=en-US&page=${page}`, {
-    mode: 'cors'
-  }).then(response => {
-    return response.json();
-  });
+export const getTopRated = async page => {
+  const response = await tmdb.get(`/movie/top_rated?page=${page}`);
+  return response.data.results;
 };
 
-export const getPopular = page => {
-  return fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${key}&language=en-US&page=${page}`, {
-    mode: 'cors'
-  }).then(response => {
-    return response.json();
-  });
+export const getPersonDetails = async id => {
+  const response = await tmdb.get(`/person/${id}`);
+  return response.data;
 };
 
-export const getTopRated = page => {
-  return fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${key}&language=en-US&page=${page}`, {
-    mode: 'cors'
-  }).then(response => {
-    return response.json();
-  });
+export const getPersonMovieCredits = async id => {
+  const response = await tmdb.get(`/person/${id}/movie_credits`);
+  return response.data.results;
 };
 
-export const getMovieDetails = id => {
-  return fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
-    response => {
-      return response.json();
-    }
-  );
+export const getPersonImages = async id => {
+  const response = await tmdb.get(`/person/${id}/tagged_images`);
+  return response.data.results;
 };
 
-export const getPersonDetails = id => {
-  return fetch(`https://api.themoviedb.org/3/person/${id}?api_key=${key}&language=en-US`, { mode: 'cors' }).then(
-    response => {
-      return response.json();
-    }
-  );
+export const getConfiguration = async () => {
+  const response = await tmdb.get(`/configuration`);
+  return response.data;
 };
 
-export const getPersonMovieCredits = id => {
-  return fetch(`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${key}&language=en-US`, {
-    mode: 'cors'
-  }).then(response => {
-    return response.json();
-  });
-};
-
-export const getPersonImages = id => {
-  return fetch(`https://api.themoviedb.org/3/person/${id}/tagged_images?api_key=${key}&language=en-US`, {
-    mode: 'cors'
-  }).then(response => {
-    return response.json();
-  });
-};
-
-export const getMovieReviews = (id, page = 1) => {
-  return fetch(`https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${key}&language=en-US&page=${page}`, {
-    mode: 'cors'
-  }).then(response => {
-    return response.json();
-  });
+export const getGenreList = async () => {
+  const response = await tmdb.get(`/genre/movie/list`);
+  return response.data.results;
 };

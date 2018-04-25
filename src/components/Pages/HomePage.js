@@ -34,16 +34,13 @@ class HomePage extends React.Component {
   };
 
   componentDidMount() {
-    getPopular().then(response => {
-      const mostPopular = response.results;
+    getPopular().then(mostPopular => {
       this.setState(() => ({ mostPopular }));
     });
-    getUpcoming().then(response => {
-      const upcoming = response.results;
+    getUpcoming().then(upcoming => {
       this.setState(() => ({ upcoming }));
     });
-    getTopRated().then(response => {
-      const topRated = response.results;
+    getTopRated().then(topRated => {
       this.setState(() => ({ topRated }));
     });
   }
