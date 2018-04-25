@@ -49,13 +49,19 @@ class Review extends React.Component {
               <a className={classes.link} target="_blank" href={url}>
                 <Typography variant="body2">{author}</Typography>
               </a>
-              {!expanded && <Typography variant="body1">{`${content.substring(0, 200)}...`}</Typography>}
+              {!expanded && (
+                <Typography variant="body1">{`${
+                  content.length > 200 ? content.substring(0, 200) + '...' : content
+                }`}</Typography>
+              )}
               <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                 <Typography variant="body1">{content}</Typography>
               </Collapse>
-              <Button onClick={this.handleExpandClick} aria-expanded={this.state.expanded} aria-label="Show more">
-                {expanded ? 'Show Less' : 'Read More'}
-              </Button>
+              {content.length > 200 && (
+                <Button onClick={this.handleExpandClick} aria-expanded={this.state.expanded} aria-label="Show more">
+                  {expanded ? 'Show Less' : 'Read More'}
+                </Button>
+              )}
             </div>
           }
         />
