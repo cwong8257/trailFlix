@@ -1,37 +1,52 @@
-# MovieTrailer
+# MovieTrailers
 
-Visit MovieTrailers [here](https://agile-river-40150.herokuapp.com/ "MovieTrailer")!
+[MovieTrailers](https://agile-river-40150.herokuapp.com/)
 
-## Description
+<table>
+  <tr>
+    <td>
+      MovieTrailers is a Netflix/YouTube clone using The Movie Database API to display movie trailers and related information.
+    </td>
+  </tr>
+</table>
 
-Website for viewing movie trailers and movie information using The Movie Database API
-https://developers.themoviedb.org/3
+## Features
 
-![untitled](https://s3.us-east-2.amazonaws.com/christopherwong.us/images/movie_trailers.png)
+### Sliders
 
-## Install Dependencies:
+The home page features a Netflix style design with multiple sliders, using React Slick to allow users to easily browse through top movies from multiple categories on one page.
 
-```
-npm install
-```
+![Front Page](src/assets/img/front_page.png)
 
-## Run development server:
+### Infinite Scrolling
 
-```
-npm run dev-server
-```
+Some pages, including the search page allow for infinite scrolling for fast and easy browsing. The content is a responsive grid of movie posters.
 
-Navigate to server at http://localhost:8080/
+![Infinite](src/assets/img/infinite.png)
 
+### Movie Page
 
-## To build static files:
+The movie page features a YouTube style design with a full-width video at the top and the title, description, genres and ratings below.
 
-```
-npm run build:dev
-```
+![Movie](src/assets/img/movie.png)
 
-## To run tests in Node:
+### Reviews and Similar Movies
 
-```
-npm test
-```
+Movie pages also have a list of collapsed reviews and similar movies on the side.
+
+![Reviews and Similar](src/assets/img/reviews_similar.png)
+
+### Built with
+
+* [React](https://reactjs.org/) - JavsScript library for building user interfaces.
+* [Redux](https://redux.js.org/) - Predictable state container for JavaScript apps.
+* [Material-UI](https://material-ui-next.com/) - React components that implement Google's Material Design.
+* [The Movie Database API](https://www.themoviedb.org/documentation/api/) - API for retreiving GitHub profile information.
+
+### To-do
+
+* Allow users to be redirected and sign in to The Movie Database.
+* Add TV Shows.
+* Allow users to rate movies.
+* Allow users to comment on movies.
+* Add a dashboard for signed in users, showing their movie ratings.
