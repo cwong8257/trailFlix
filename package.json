@@ -34,7 +34,7 @@
     "moment": "^2.22.1",
     "node-sass": "4.5.3",
     "numeral": "2.0.6",
-    "querystringify": "^1.0.0",
+    "querystringify": "^2.0.0",
     "raf": "3.3.2",
     "react": "16.0.0",
     "react-addons-shallow-compare": "15.6.0",
