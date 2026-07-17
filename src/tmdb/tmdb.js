@@ -51,22 +51,22 @@ export const getMovieList = async (page, query) => {
   return response.data.results;
 };
 
-export const getNowPlaying = async page => {
+export const getNowPlaying = async (page = 1) => {
   const response = await tmdb.get(`/movie/now_playing?page=${page}`);
   return response.data.results;
 };
 
-export const getUpcoming = async page => {
+export const getUpcoming = async (page = 1) => {
   const response = await tmdb.get(`/movie/upcoming?page=${page}`);
   return response.data.results;
 };
 
-export const getPopular = async page => {
+export const getPopular = async (page = 1) => {
   const response = await tmdb.get(`/movie/popular?page=${page}`);
   return response.data.results;
 };
 
-export const getTopRated = async page => {
+export const getTopRated = async (page = 1) => {
   const response = await tmdb.get(`/movie/top_rated?page=${page}`);
   return response.data.results;
 };

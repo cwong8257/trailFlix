@@ -8,12 +8,11 @@
     "node": "8.10.0"
   },
   "scripts": {
-    "build:dev": "webpack",
-    "build:prod": "webpack -p --env production",
-    "dev-server": "webpack-dev-server",
-    "test": "cross-env NODE_ENV=test jest --config=jest.config.json",
-    "start": "node server/server.js",
-    "heroku-postbuild": "yarn run build:prod"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "vercel:dev": "vercel dev",
+    "test": "cross-env NODE_ENV=test jest --config=jest.config.json"
   },
   "dependencies": {
     "axios": "^0.21.2",
@@ -26,19 +25,18 @@
     "babel-preset-env": "1.5.2",
     "babel-preset-react": "6.24.1",
     "css-loader": "0.28.4",
-    "express": "4.15.4",
     "extract-text-webpack-plugin": "3.0.0",
     "file-loader": "^1.1.11",
     "history": "4.7.2",
     "material-ui": "^1.0.0-beta.38",
     "moment": "^2.22.1",
-    "node-sass": "7.0.0",
+    "sass": "^1.77.0",
     "numeral": "2.0.6",
     "querystringify": "^2.0.0",
     "raf": "3.3.2",
-    "react": "16.0.0",
+    "react": "^18.3.1",
     "react-addons-shallow-compare": "15.6.0",
-    "react-dom": "16.0.0",
+    "react-dom": "^18.3.1",
     "react-infinite-scroller": "^1.1.3",
     "react-redux": "5.0.5",
     "react-router-dom": "4.2.2",
@@ -47,7 +45,6 @@
     "redux": "3.7.2",
     "redux-mock-store": "1.2.3",
     "redux-thunk": "2.2.0",
-    "sass-loader": "6.0.6",
     "style-loader": "0.18.2",
     "styled-components": "^3.2.5",
     "typeface-roboto": "^0.0.54",
@@ -63,6 +60,11 @@
     "enzyme-to-json": "3.0.1",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0",
-    "webpack-dev-server": "2.5.1"
+    "webpack-dev-server": "2.5.1",
+    "vite": "^5.4.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.4",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1"
   }
 }

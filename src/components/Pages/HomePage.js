@@ -35,9 +35,9 @@ class HomePage extends React.Component {
 
   async componentDidMount() {
     const [mostPopular, upcoming, topRated] = await Promise.all([
-      getPopular().then(mostPopular),
-      getUpcoming().then(upcoming),
-      getTopRated().then(topRated)
+      getPopular(),
+      getUpcoming(),
+      getTopRated()
     ]);
     this.setState(() => ({ mostPopular, upcoming, topRated }));
   }
