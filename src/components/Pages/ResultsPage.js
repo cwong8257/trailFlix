@@ -6,6 +6,7 @@ import qs from 'querystringify';
 
 import InfinitePage from './InfinitePage';
 import { getMovieList } from '../../tmdb/tmdb';
+import { withRouter } from '../../routers/withRouter';
 
 class ResultsPage extends React.Component {
   state = {};
@@ -30,4 +31,5 @@ class ResultsPage extends React.Component {
   }
 }
 
-export default ResultsPage;
+export default withRouter(ResultsPage);
+

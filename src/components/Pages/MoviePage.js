@@ -17,7 +17,7 @@ import Loading from '../Apps/Loading';
 import SingleLineGridList from '../Apps/SingleLineGridList';
 import Rating from '../Apps/Rating';
 import Video from '../Apps/Video';
-import { history } from '../../routers/AppRouter';
+import { withRouter } from '../../routers/withRouter';
 import { getMovieDetails, getMovieTrailer, getSimilar, getMovieReviews } from '../../tmdb/tmdb';
 import VerticalList from '../Apps/VerticalList';
 import ReviewsList from '../Apps/ReviewsList';
@@ -187,5 +187,6 @@ export default compose(
   withStyles(styles, {
     name: 'MoviePage'
   }),
-  withTMDBConfig
+  withTMDBConfig,
+  withRouter
 )(MoviePage);

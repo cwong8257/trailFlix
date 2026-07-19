@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField';
 import { InputLabel, InputAdornment } from 'material-ui/Input';
 
 import HeaderSearchIcon from './HeaderSearchIcon';
-import { history } from '../../routers/AppRouter';
+import { withRouter } from '../../routers/withRouter';
 import { getMovieList } from '../../tmdb/tmdb';
 
 const styles = theme => ({
@@ -37,7 +37,7 @@ class HeaderSearchBar extends React.Component {
   onSubmit = e => {
     e.preventDefault();
 
-    history.push(`/results?search_query=${this.state.search}`);
+    this.props.navigate(`/results?search_query=${this.state.search}`);
     this.setState(() => ({ search: '' }));
   };
 
@@ -73,4 +73,5 @@ class HeaderSearchBar extends React.Component {
   }
 }
 
-export default withStyles(styles)(HeaderSearchBar);
+export default withRouter(withStyles(styles)(HeaderSearchBar));
+

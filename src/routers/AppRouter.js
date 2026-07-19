@@ -1,6 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import HomePage from '../components/Pages/HomePage';
 import MoviePage from '../components/Pages/MoviePage';
@@ -9,28 +8,25 @@ import MostPopularPage from '../components/Pages/MostPopularPage';
 import UpcomingPage from '../components/Pages/UpcomingPage';
 import TopRatedPage from '../components/Pages/TopRatedPage';
 import NotFoundPage from '../components/Pages/NotFoundPage';
-
-export const history = createHistory();
-
-history.listen((location, action) => {
-  window.scrollTo(0, 0);
-});
+import ScrollToTop from './ScrollToTop';
 
 const AppRouter = () => (
-  <Router history={history}>
+  <BrowserRouter>
+    <ScrollToTop />
     <div>
       <Header />
-      <Switch>
-        <Route path="/" component={HomePage} exact={true} />
-        <Route path="/movie/:id" component={MoviePage} />
-        <Route path="/results" component={ResultsPage} />
-        <Route path="/most_popular" component={MostPopularPage} />
-        <Route path="/upcoming" component={UpcomingPage} />
-        <Route path="/top_rated" component={TopRatedPage} />
-        <Route component={NotFoundPage} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/movie/:id" element={<MoviePage />} />
+        <Route path="/results" element={<ResultsPage />} />
+        <Route path="/most_popular" element={<MostPopularPage />} />
+        <Route path="/upcoming" element={<UpcomingPage />} />
+        <Route path="/top_rated" element={<TopRatedPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </div>
-  </Router>
+  </BrowserRouter>
 );
 
 export default AppRouter;
+
