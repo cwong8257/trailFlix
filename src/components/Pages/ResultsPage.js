@@ -1,35 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import compose from 'recompose/compose';
-import { withStyles } from 'material-ui/styles';
+import { useLocation } from 'react-router-dom';
 import qs from 'querystringify';
 
 import InfinitePage from './InfinitePage';
 import { getMovieList } from '../../tmdb/tmdb';
-import { withRouter } from '../../routers/withRouter';
 
-class ResultsPage extends React.Component {
-  state = {};
+const ResultsPage = () => {
+  const location = useLocation();
+  const { search_query: query } = qs.parse(location.search);
+  const title = `Results for "${query}"`;
 
-  componentDidMount() {
-    const { search_query: query } = qs.parse(this.props.location.search);
-    this.setState(() => ({ query }));
-  }
+  return (
+    <div>
+      {query && <InfinitePage loadMore={getMovieList} title={title} query={query} />}
+    </div>
+  );
+};
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.location.search !== this.props.location.search) {
-      const { search_query: query } = qs.parse(nextProps.location.search);
-      this.setState(() => ({ query }));
-    }
-  }
+export default ResultsPage;
 
-  render() {
-    const { query } = this.state;
-    const title = `Results for "${query}"`;
-
-    return <div>{query && <InfinitePage loadMore={getMovieList} title={title} query={query} />}</div>;
-  }
-}
-
-export default withRouter(ResultsPage);
 

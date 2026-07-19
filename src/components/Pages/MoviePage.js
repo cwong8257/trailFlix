@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
 import moment from 'moment';
@@ -17,7 +17,6 @@ import Loading from '../Apps/Loading';
 import SingleLineGridList from '../Apps/SingleLineGridList';
 import Rating from '../Apps/Rating';
 import Video from '../Apps/Video';
-import { withRouter } from '../../routers/withRouter';
 import { getMovieDetails, getMovieTrailer, getSimilar, getMovieReviews } from '../../tmdb/tmdb';
 import VerticalList from '../Apps/VerticalList';
 import ReviewsList from '../Apps/ReviewsList';
@@ -37,7 +36,7 @@ const styles = theme => ({
   }
 });
 
-class MoviePage extends React.Component {
+class MoviePageInner extends React.Component {
   mapMovies = ({ backdrop_path, title: primary, id, release_date }) => {
     const { config } = this.props;
     const img = config.images.secure_base_url + config.images.backdrop_sizes[0] + backdrop_path;
@@ -70,12 +69,12 @@ class MoviePage extends React.Component {
   };
 
   componentDidMount() {
-    this.loadAllData(this.props.match.params.id);
+    this.loadAllData(this.props.id);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.id !== this.props.match.params.id) {
-      this.loadAllData(nextProps.match.params.id);
+    if (nextProps.id !== this.props.id) {
+      this.loadAllData(nextProps.id);
     }
   }
 
@@ -183,10 +182,14 @@ class MoviePage extends React.Component {
   }
 }
 
+const MoviePage = (props) => {
+  const { id } = useParams();
+  return <MoviePageInner {...props} id={id} />;
+};
+
 export default compose(
   withStyles(styles, {
     name: 'MoviePage'
   }),
-  withTMDBConfig,
-  withRouter
+  withTMDBConfig
 )(MoviePage);

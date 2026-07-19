@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import { InputLabel, InputAdornment } from 'material-ui/Input';
 
 import HeaderSearchIcon from './HeaderSearchIcon';
-import { withRouter } from '../../routers/withRouter';
-import { getMovieList } from '../../tmdb/tmdb';
 
 const styles = theme => ({
   root: {
@@ -24,54 +23,49 @@ const styles = theme => ({
   }
 });
 
-class HeaderSearchBar extends React.Component {
-  state = {
-    search: ''
+const HeaderSearchBar = ({ classes, onFocusChange }) => {
+  const [search, setSearch] = useState('');
+  const navigate = useNavigate();
+
+  const onSearchChange = e => {
+    setSearch(e.target.value);
   };
 
-  onSearchChange = e => {
-    const search = e.target.value;
-    this.setState(() => ({ search }));
-  };
-
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-
-    this.props.navigate(`/results?search_query=${this.state.search}`);
-    this.setState(() => ({ search: '' }));
+    navigate(`/results?search_query=${search}`);
+    setSearch('');
   };
 
-  render() {
-    const { classes, onFocusChange } = this.props;
-    return (
-      <div className={classes.root}>
-        <form onSubmit={this.onSubmit}>
-          <TextField
-            fullWidth
-            autoFocus
-            id="search-input"
-            placeholder="Search"
-            value={this.state.search}
-            onBlur={onFocusChange}
-            onChange={this.onSearchChange}
-            InputProps={{
-              disableUnderline: true,
-              classes: {
-                root: classes.textFieldRoot,
-                input: classes.textFieldInput
-              },
-              startAdornment: (
-                <InputAdornment position="start">
-                  <HeaderSearchIcon />
-                </InputAdornment>
-              )
-            }}
-          />
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div className={classes.root}>
+      <form onSubmit={onSubmit}>
+        <TextField
+          fullWidth
+          autoFocus
+          id="search-input"
+          placeholder="Search"
+          value={search}
+          onBlur={onFocusChange}
+          onChange={onSearchChange}
+          InputProps={{
+            disableUnderline: true,
+            classes: {
+              root: classes.textFieldRoot,
+              input: classes.textFieldInput
+            },
+            startAdornment: (
+              <InputAdornment position="start">
+                <HeaderSearchIcon />
+              </InputAdornment>
+            )
+          }}
+        />
+      </form>
+    </div>
+  );
+};
 
-export default withRouter(withStyles(styles)(HeaderSearchBar));
+export default withStyles(styles)(HeaderSearchBar);
+
 
