@@ -1,31 +1,35 @@
 import axios from 'axios';
 
 const tmdb = axios.create({
-  baseURL: 'https://api.themoviedb.org/3',
+  baseURL: '/api/tmdb',
   timeout: 12000,
-  params: {
-    api_key: process.env.TMDB_API_KEY,
-    language: 'en-US'
-  }
 });
 
+/**
+ * Helper – builds the params object expected by the proxy.
+ * The proxy reads `path` to know which TMDB endpoint to hit,
+ * and forwards everything else as query-string params.
+ */
+const proxyGet = (path, extraParams = {}) =>
+  tmdb.get('', { params: { path, ...extraParams } });
+
 export const getMovieDetails = async id => {
-  const response = await tmdb.get(`/movie/${id}`);
+  const response = await proxyGet(`/movie/${id}`);
   return response.data;
 };
 
 export const getMovieCredits = async id => {
-  const response = await tmdb.get(`/movie/${id}/credits`);
+  const response = await proxyGet(`/movie/${id}/credits`);
   return response.data.results;
 };
 
 export const getSimilar = async id => {
-  const response = await tmdb.get(`/movie/${id}/similar`);
+  const response = await proxyGet(`/movie/${id}/similar`);
   return response.data.results;
 };
 
 export const getMovieTrailer = async id => {
-  const response = await tmdb.get(`/movie/${id}/videos`);
+  const response = await proxyGet(`/movie/${id}/videos`);
   const trailers = response.data.results;
   const types = ['Trailer', 'Teaser', 'Featurette', 'Clip'];
 
@@ -42,56 +46,60 @@ export const getMovieTrailer = async id => {
   }
 };
 export const getMovieReviews = async (id, page = 1) => {
-  const response = await tmdb.get(`/movie/${id}/reviews?page=${page}`);
+  const response = await proxyGet(`/movie/${id}/reviews`, { page });
   return response.data.results;
 };
 
 export const getMovieList = async (page, query) => {
-  const response = await tmdb.get(`/search/movie?include_adult=false&page=${page}&query=${query}`);
+  const response = await proxyGet('/search/movie', {
+    include_adult: false,
+    page,
+    query,
+  });
   return response.data.results;
 };
 
 export const getNowPlaying = async (page = 1) => {
-  const response = await tmdb.get(`/movie/now_playing?page=${page}`);
+  const response = await proxyGet('/movie/now_playing', { page });
   return response.data.results;
 };
 
 export const getUpcoming = async (page = 1) => {
-  const response = await tmdb.get(`/movie/upcoming?page=${page}`);
+  const response = await proxyGet('/movie/upcoming', { page });
   return response.data.results;
 };
 
 export const getPopular = async (page = 1) => {
-  const response = await tmdb.get(`/movie/popular?page=${page}`);
+  const response = await proxyGet('/movie/popular', { page });
   return response.data.results;
 };
 
 export const getTopRated = async (page = 1) => {
-  const response = await tmdb.get(`/movie/top_rated?page=${page}`);
+  const response = await proxyGet('/movie/top_rated', { page });
   return response.data.results;
 };
 
 export const getPersonDetails = async id => {
-  const response = await tmdb.get(`/person/${id}`);
+  const response = await proxyGet(`/person/${id}`);
   return response.data;
 };
 
 export const getPersonMovieCredits = async id => {
-  const response = await tmdb.get(`/person/${id}/movie_credits`);
+  const response = await proxyGet(`/person/${id}/movie_credits`);
   return response.data.results;
 };
 
 export const getPersonImages = async id => {
-  const response = await tmdb.get(`/person/${id}/tagged_images`);
+  const response = await proxyGet(`/person/${id}/tagged_images`);
   return response.data.results;
 };
 
 export const getConfiguration = async () => {
-  const response = await tmdb.get(`/configuration`);
+  const response = await proxyGet('/configuration');
   return response.data;
 };
 
 export const getGenreList = async () => {
-  const response = await tmdb.get(`/genre/movie/list`);
+  const response = await proxyGet('/genre/movie/list');
   return response.data.results;
 };
