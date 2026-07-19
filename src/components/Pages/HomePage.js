@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 import moment from 'moment';
@@ -67,7 +67,5 @@ export default compose(
   withStyles(styles, {
     name: 'HomePage'
   }),
-  connect(state => ({
-    config: state.config
-  }))
+  withTMDBConfig
 )(HomePage);

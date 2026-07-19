@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
@@ -24,7 +23,6 @@ class ResultsPage extends React.Component {
   }
 
   render() {
-    const { classes, config } = this.props;
     const { query } = this.state;
     const title = `Results for "${query}"`;
 
@@ -32,6 +30,4 @@ class ResultsPage extends React.Component {
   }
 }
 
-export default connect(state => ({
-  config: state.config
-}))(ResultsPage);
+export default ResultsPage;

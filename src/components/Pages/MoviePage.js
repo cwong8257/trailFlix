@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
 import moment from 'moment';
 import Grid from 'material-ui/Grid';
@@ -187,7 +187,5 @@ export default compose(
   withStyles(styles, {
     name: 'MoviePage'
   }),
-  connect(state => ({
-    config: state.config
-  }))
+  withTMDBConfig
 )(MoviePage);

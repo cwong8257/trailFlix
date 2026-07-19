@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
 import { withStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
@@ -57,7 +57,5 @@ export default compose(
   withStyles(styles, {
     name: 'MovieList'
   }),
-  connect(state => ({
-    config: state.config
-  }))
+  withTMDBConfig
 )(MovieList);

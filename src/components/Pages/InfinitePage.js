@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
@@ -91,7 +91,5 @@ export default compose(
   withStyles(styles, {
     name: 'InfinitePage'
   }),
-  connect(state => ({
-    config: state.config
-  }))
+  withTMDBConfig
 )(InfinitePage);
