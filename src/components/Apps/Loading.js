@@ -1,23 +1,13 @@
 import React from 'react';
-import withStyles from '@mui/styles/withStyles';
 import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  progress: {
-    margin: theme.spacing.unit * 2
-  }
-});
-
-const Loading = ({ classes }) => {
+const Loading = () => {
   return (
-    <div className={classes.root}>
-      <CircularProgress className={classes.progress} size={50} color="secondary" />
-    </div>
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <CircularProgress sx={{ m: 2 }} size={50} color="secondary" />
+    </Box>
   );
 };
 
-export default withStyles(styles)(Loading);
+export default Loading;

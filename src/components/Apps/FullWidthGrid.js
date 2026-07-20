@@ -1,11 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-
 import Poster from './Poster';
 
-const FullWidthGrid = ({ classes, tileData }) => {
+const FullWidthGrid = ({ tileData }) => {
   return (
     <Grid container spacing={1}>
       {tileData.map((tile, index) => (
