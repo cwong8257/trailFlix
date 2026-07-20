@@ -61,6 +61,6 @@
     "jest": "20.0.4",
     "typescript": "^5.5.4",
     "vite": "^5.4.0",
-    "webpack-dev-server": "2.5.1"
+    "webpack-dev-server": "6.0.0"
   }
 }
