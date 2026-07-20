@@ -1,31 +1,19 @@
-import React from 'react';
-import { withTMDBConfig } from '../../context/TMDBConfigContext';
-import compose from 'recompose/compose';
+import React, { useState, useEffect } from 'react';
+import { useTMDBConfig } from '../../context/TMDBConfigContext';
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
-import withStyles from '@mui/styles/withStyles';
 import Typography from '@mui/material/Typography';
-import qs from 'querystringify';
+import Box from '@mui/material/Box';
 
 import Loading from '../Apps/Loading';
 import FullWidthGrid from '../Apps/FullWidthGrid';
 
-const styles = theme => ({
-  root: {
-    padding: '6rem 2rem 2rem 2rem',
-    backgroundColor: '#141414',
-    color: '#e5e5e5'
-  }
-});
+const InfinitePage = ({ loadMore, query, title }) => {
+  const [movies, setMovies] = useState([]);
+  const [hasMoreItems, setHasMoreItems] = useState(true);
+  const config = useTMDBConfig();
 
-class InfinitePage extends React.Component {
-  state = {
-    movies: [],
-    hasMoreItems: true
-  };
-
-  mapMovies = ({ poster_path, title, id, release_date, overview }) => {
-    const { config } = this.props;
+  const mapMovies = ({ poster_path, title, id, release_date, overview }) => {
     const img = config.images.secure_base_url + config.images.poster_sizes[3] + poster_path;
     const year = release_date && moment(release_date).format('YYYY');
 
@@ -38,58 +26,51 @@ class InfinitePage extends React.Component {
     };
   };
 
-  filterMovies = ({ poster_path }) => poster_path;
+  const filterMovies = ({ poster_path }) => poster_path;
 
-  loadItems = async page => {
-    const { loadMore, query } = this.props;
+  const loadItems = async page => {
     const newMovies = await loadMore(page, query);
-    const hasMoreItems = page !== 1000 && newMovies.length > 0;
+    const hasMore = page !== 1000 && newMovies.length > 0;
 
-    if (hasMoreItems) {
-      this.setState(({ movies }) => ({
-        movies: [...movies, ...newMovies],
-        hasMoreItems
-      }));
+    if (hasMore) {
+      setMovies(prev => [...prev, ...newMovies]);
+      setHasMoreItems(hasMore);
     } else {
-      this.setState(() => ({
-        hasMoreItems
-      }));
+      setHasMoreItems(hasMore);
     }
   };
 
-  componentWillReceiveProps({ query }) {
-    if (query) {
-      this.setState(() => ({ movies: [], hasMoreItems: true }));
-    }
-  }
+  useEffect(() => {
+    setMovies([]);
+    setHasMoreItems(true);
+  }, [query]);
 
-  render() {
-    const { classes, config, title, query } = this.props;
-    const { movies } = this.state;
-    const tileData = movies && movies.filter(this.filterMovies).map(this.mapMovies);
+  if (!config) return <Loading />;
 
-    return (
-      <div className={classes.root}>
-        <InfiniteScroll
-          key={query}
-          pageStart={0}
-          loadMore={this.loadItems}
-          hasMore={this.state.hasMoreItems}
-          loader={<Loading key="3" />}
-        >
-          <Typography color="inherit" variant="display1" component="h1" gutterBottom>
-            {title}
-          </Typography>
-          {tileData && <FullWidthGrid tileData={tileData} />}
-        </InfiniteScroll>
-      </div>
-    );
-  }
-}
+  const tileData = movies && movies.filter(filterMovies).map(mapMovies);
 
-export default compose(
-  withStyles(styles, {
-    name: 'InfinitePage'
-  }),
-  withTMDBConfig
-)(InfinitePage);
+  return (
+    <Box
+      sx={{
+        padding: '6rem 2rem 2rem 2rem',
+        backgroundColor: '#141414',
+        color: '#e5e5e5'
+      }}
+    >
+      <InfiniteScroll
+        key={query}
+        pageStart={0}
+        loadMore={loadItems}
+        hasMore={hasMoreItems}
+        loader={<Loading key="3" />}
+      >
+        <Typography color="inherit" variant="h4" component="h1" gutterBottom>
+          {title}
+        </Typography>
+        {tileData && <FullWidthGrid tileData={tileData} />}
+      </InfiniteScroll>
+    </Box>
+  );
+};
+
+export default InfinitePage;

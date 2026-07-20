@@ -1,49 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import withStyles from '@mui/styles/withStyles';
-import Typography from '@mui/material/Typography';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexGrow: 1
-  },
-  link: {
-    textDecoration: 'none',
+const HeaderNavBar = () => {
+  const linkSx = {
     color: 'inherit',
     marginRight: '1rem',
-
     '&:hover': {
       color: '#b3b3b3'
     }
-  }
-});
+  };
 
-const HeaderNavBar = ({ classes }) => {
   return (
-    <div className={classes.root}>
-      <Typography color="inherit" variant="body1" component="span">
-        <Link to="/" className={classes.link}>
-          Home
-        </Link>
-      </Typography>
-      <Typography color="inherit" variant="body1" component="span">
-        <Link to="/most_popular" className={classes.link}>
-          Most Popular
-        </Link>
-      </Typography>
-      <Typography color="inherit" variant="body1" component="span">
-        <Link to="/upcoming" className={classes.link}>
-          Upcoming
-        </Link>
-      </Typography>
-      <Typography color="inherit" variant="body1" component="span">
-        <Link to="/top_rated" className={classes.link}>
-          Top Rated
-        </Link>
-      </Typography>
-    </div>
+    <Box sx={{ display: 'flex', flexGrow: 1 }}>
+      <Link component={RouterLink} to="/" variant="body1" underline="none" sx={linkSx}>
+        Home
+      </Link>
+      <Link component={RouterLink} to="/most_popular" variant="body1" underline="none" sx={linkSx}>
+        Most Popular
+      </Link>
+      <Link component={RouterLink} to="/upcoming" variant="body1" underline="none" sx={linkSx}>
+        Upcoming
+      </Link>
+      <Link component={RouterLink} to="/top_rated" variant="body1" underline="none" sx={linkSx}>
+        Top Rated
+      </Link>
+    </Box>
   );
 };
 
-export default withStyles(styles)(HeaderNavBar);
+export default HeaderNavBar;

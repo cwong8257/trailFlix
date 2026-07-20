@@ -1,26 +1,28 @@
 import React from 'react';
-import withStyles from '@mui/styles/withStyles';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
-const styles = theme => ({
-  root: {
-    color: '#e50914',
-    display: 'inline-block',
-    marginRight: '1rem',
-    textDecoration: 'none'
-  }
-});
-
-const HeaderLogo = props => {
-  const { classes } = props;
+const HeaderLogo = () => {
   return (
-    <Link className={classes.root} to="/">
-      <Typography variant="headline" color="inherit">
+    <Link
+      component={RouterLink}
+      to="/"
+      underline="none"
+      sx={{
+        color: '#e50914',
+        display: 'inline-block',
+        marginRight: '1rem',
+        '&:hover': {
+          color: '#e50914'
+        }
+      }}
+    >
+      <Typography variant="h5" color="inherit" sx={{ fontWeight: 'bold' }}>
         MovieTrailers
       </Typography>
     </Link>
   );
 };
 
-export default withStyles(styles)(HeaderLogo);
+export default HeaderLogo;
