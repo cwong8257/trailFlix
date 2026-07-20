@@ -1,44 +1,31 @@
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { withTMDBConfig } from '../../context/TMDBConfigContext';
-import compose from 'recompose/compose';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useTMDBConfig } from '../../context/TMDBConfigContext';
 import moment from 'moment';
 import Grid from '@mui/material/Grid';
-import withStyles from '@mui/styles/withStyles';
-import Paper from '@mui/material/Paper';
-import Card, { CardActions, CardContent, CardMedia } from '@mui/material/Card';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 
-import HorizontalSlider from '../Apps/HorizontalSlider';
 import Loading from '../Apps/Loading';
-import SingleLineGridList from '../Apps/SingleLineGridList';
 import Rating from '../Apps/Rating';
 import Video from '../Apps/Video';
 import { getMovieDetails, getMovieTrailer, getSimilar, getMovieReviews } from '../../tmdb/tmdb';
 import VerticalList from '../Apps/VerticalList';
 import ReviewsList from '../Apps/ReviewsList';
 
-const styles = theme => ({
-  root: {
-    paddingTop: '4rem'
-  },
-  link: {
-    textDecoration: 'none'
-  },
-  card: {
-    padding: '0.5rem'
-  },
-  rating: {
-    float: 'right'
-  }
-});
+const MoviePage = () => {
+  const { id } = useParams();
+  const config = useTMDBConfig();
+  const [movieData, setMovieData] = useState(null);
 
-class MoviePageInner extends React.Component {
-  mapMovies = ({ backdrop_path, title: primary, id, release_date }) => {
-    const { config } = this.props;
+  const filterMovies = ({ backdrop_path }) => backdrop_path;
+
+  const mapMovies = ({ backdrop_path, title: primary, id, release_date }) => {
     const img = config.images.secure_base_url + config.images.backdrop_sizes[0] + backdrop_path;
     const secondary = release_date && moment(release_date).format('YYYY');
 
@@ -50,146 +37,149 @@ class MoviePageInner extends React.Component {
     };
   };
 
-  filterMovies = ({ backdrop_path }) => backdrop_path;
+  useEffect(() => {
+    let isMounted = true;
+    setMovieData(null); // Show loading when switching movies
 
-  loadAllData = async id => {
-    const [movie, youtubeId, similar, reviews] = await Promise.all([
-      getMovieDetails(id),
-      getMovieTrailer(id),
-      getSimilar(id),
-      getMovieReviews(id)
-    ]);
+    const loadAllData = async (movieId) => {
+      try {
+        const [movie, youtubeId, similar, reviews] = await Promise.all([
+          getMovieDetails(movieId),
+          getMovieTrailer(movieId),
+          getSimilar(movieId),
+          getMovieReviews(movieId)
+        ]);
 
-    this.setState(() => ({
-      ...movie,
+        if (isMounted) {
+          setMovieData({
+            ...movie,
+            youtubeId,
+            similar,
+            reviews
+          });
+        }
+      } catch (err) {
+        console.error('Failed to load movie details:', err);
+      }
+    };
+
+    loadAllData(id);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
+  if (movieData && config) {
+    const {
+      title,
+      overview,
+      imdb_id,
       youtubeId,
+      homepage,
+      release_date,
+      genres,
+      reviews,
       similar,
-      reviews
-    }));
-  };
+      vote_average,
+      vote_count
+    } = movieData;
 
-  componentDidMount() {
-    this.loadAllData(this.props.id);
-  }
+    const year = release_date && moment(release_date).format('YYYY');
+    const similarTileData = similar && similar.filter(filterMovies).map(mapMovies);
+    const genresList = genres && genres.map(({ name }, index) => name + (index === genres.length - 1 ? '' : ', '));
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.id !== this.props.id) {
-      this.loadAllData(nextProps.id);
-    }
-  }
-
-  render() {
-    const { classes } = this.props;
-
-    if (this.state) {
-      const {
-        title,
-        overview,
-        imdb_id,
-        youtubeId,
-        homepage,
-        release_date,
-        genres,
-        reviews,
-        similar,
-        vote_average,
-        vote_count
-      } = this.state;
-      const year = release_date && moment(release_date).format('YYYY');
-      const similarTileData = similar && similar.filter(this.filterMovies).map(this.mapMovies);
-      const genresList = genres && genres.map(({ name }, index) => name + (index === genres.length - 1 ? '' : ', '));
-
-      return (
-        <div className={classes.root}>
-          {youtubeId && <Video videoId={youtubeId} />}
-          <Card className={classes.card}>
-            <Grid container justifyContent="center">
-              <Grid item xs lg={10} xl={9}>
-                <Grid container direction="row">
-                  <Grid item xs>
-                    <CardContent>
-                      <div className={classes.rating}>
-                        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                          <Rating rating={vote_average} count={vote_count} />
-                        </Box>
-                      </div>
-                      <Typography gutterBottom variant="headline" component="h2">
-                        {title} {year && `(${year})`}
+    return (
+      <Box sx={{ paddingTop: '4rem' }}>
+        {youtubeId && <Video videoId={youtubeId} />}
+        <Card sx={{ padding: '0.5rem' }}>
+          <Grid container justifyContent="center">
+            <Grid item xs lg={10} xl={9}>
+              <Grid container direction="row">
+                <Grid item xs>
+                  <CardContent>
+                    <Box sx={{ float: 'right' }}>
+                      <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                        <Rating rating={vote_average} count={vote_count} />
+                      </Box>
+                    </Box>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {title} {year && `(${year})`}
+                    </Typography>
+                    {genresList && (
+                      <Typography variant="subtitle1" component="p">
+                        {genresList}
                       </Typography>
-                      {genresList && (
-                        <Typography variant="subheading" component="p">
-                          {genresList}
-                        </Typography>
-                      )}
-                    </CardContent>
+                    )}
+                  </CardContent>
+                  <CardContent>
+                    <Typography component="p">{overview}</Typography>
+                  </CardContent>
+                  <CardActions>
+                    {imdb_id && (
+                      <Button size="small" color="primary">
+                        <a
+                          style={{ textDecoration: 'none', color: 'inherit' }}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`http://www.imdb.com/title/${imdb_id}/`}
+                        >
+                          IMDB
+                        </a>
+                      </Button>
+                    )}
+                    {homepage && (
+                      <Button size="small" color="primary">
+                        <a
+                          style={{ textDecoration: 'none', color: 'inherit' }}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={homepage}
+                        >
+                          Home Page
+                        </a>
+                      </Button>
+                    )}
+                  </CardActions>
+                  <CardContent>
+                    <Divider />
+                  </CardContent>
+                  {reviews && (
                     <CardContent>
-                      <Typography component="p">{overview}</Typography>
+                      <ReviewsList reviews={reviews} />
                     </CardContent>
-                    <CardActions>
-                      {imdb_id && (
-                        <Button size="small" color="primary">
-                          <a className={classes.link} target="_blank" href={`http://www.imdb.com/title/${imdb_id}/`}>
-                            IMDB
-                          </a>
-                        </Button>
-                      )}
-                      {homepage && (
-                        <Button size="small" color="primary">
-                          <a className={classes.link} target="_blank" href={homepage}>
-                            Home Page
-                          </a>
-                        </Button>
-                      )}
-                    </CardActions>
+                  )}
+                  <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                     <CardContent>
                       <Divider />
                     </CardContent>
-                    {reviews && (
-                      <CardContent>
-                        <ReviewsList reviews={reviews} />
-                      </CardContent>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={5} lg={4}>
+                  <CardContent>
+                    <Typography variant="subtitle1" component="h3" gutterBottom>
+                      More Like This...
+                    </Typography>
+                    {similarTileData && similarTileData.length > 0 ? (
+                      <VerticalList tileData={similarTileData} />
+                    ) : (
+                      <Typography variant="body1">Similar movies not found</Typography>
                     )}
-                    <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                      <CardContent>
-                        <Divider />
-                      </CardContent>
-                    </Box>
-                  </Grid>
-                  <Grid item xs={12} sm={5} lg={4}>
-                    <CardContent>
-                      <Typography variant="subheading" component="h3" gutterBottom>
-                        More Like This...
-                      </Typography>
-                      {similarTileData && similarTileData.length > 0 ? (
-                        <VerticalList tileData={similarTileData} />
-                      ) : (
-                        <Typography variant="body1">Similar movies not found</Typography>
-                      )}
-                    </CardContent>
-                  </Grid>
+                  </CardContent>
                 </Grid>
               </Grid>
             </Grid>
-          </Card>
-        </div>
-      );
-    }
-    return (
-      <div className={classes.root}>
-        <Loading />
-      </div>
+          </Grid>
+        </Card>
+      </Box>
     );
   }
-}
 
-const MoviePage = (props) => {
-  const { id } = useParams();
-  return <MoviePageInner {...props} id={id} />;
+  return (
+    <Box sx={{ paddingTop: '4rem' }}>
+      <Loading />
+    </Box>
+  );
 };
 
-export default compose(
-  withStyles(styles, {
-    name: 'MoviePage'
-  }),
-  withTMDBConfig
-)(MoviePage);
+export default MoviePage;
