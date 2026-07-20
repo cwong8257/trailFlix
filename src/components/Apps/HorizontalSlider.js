@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Slider from 'react-slick';
-import Typography from 'material-ui/Typography';
-import { keyframes } from 'styled-components';
-import { withStyles } from 'material-ui/styles';
+import Typography from '@mui/material/Typography';
+import { keyframes } from '@mui/material';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 
 import Poster from './Poster';
 
@@ -18,40 +19,8 @@ const unhide = keyframes`
   }
 `;
 
-const styles = theme => ({
-  root: {
-    backgroundColor: 'inherit',
-    color: 'inherit'
-  },
-  hidden: {
-    position: 'absolute',
-    bottom: '0.1rem',
-    right: '-4.5rem',
-    opacity: 0
-  },
-  title: {
-    color: 'inherit',
-    textDecoration: 'none',
-    marginBottom: '0.5rem',
-    display: 'inline-block',
-    position: 'relative',
-
-    '&:hover': {
-      color: 'white',
-
-      '& div': {
-        animation: `${unhide} 1s both`
-      }
-    }
-  },
-  slide: {
-    paddingRight: '4px'
-  }
-});
-
-const HorizontalSlider = ({ color, classes, link, tileData, title }) => {
+const HorizontalSlider = ({ color, link, tileData, title }) => {
   const settings = {
-    className: classes.slider,
     infinite: true,
     slidesToScroll: 6,
     slidesToShow: 6,
@@ -89,26 +58,50 @@ const HorizontalSlider = ({ color, classes, link, tileData, title }) => {
   };
 
   return (
-    <div className={classes.root}>
-      <Link to={`${link}`} className={classes.title}>
-        <Typography color="inherit" variant="title" component="span">
+    <Box sx={{ backgroundColor: 'inherit', color: 'inherit' }}>
+      <Link
+        component={RouterLink}
+        to={link}
+        underline="none"
+        sx={{
+          color: 'inherit',
+          marginBottom: '0.5rem',
+          display: 'inline-block',
+          position: 'relative',
+          '&:hover': {
+            color: 'white',
+            '& .explore-all': {
+              animation: `${unhide} 1s both`
+            }
+          }
+        }}
+      >
+        <Typography color="inherit" variant="h6" component="span" sx={{ fontWeight: 500 }}>
           {title}
         </Typography>
-        <div className={classes.hidden}>
+        <Box
+          className="explore-all"
+          sx={{
+            position: 'absolute',
+            bottom: '0.1rem',
+            right: '-4.5rem',
+            opacity: 0
+          }}
+        >
           <Typography color="inherit" variant="caption" component="span">
             Explore All &gt;
           </Typography>
-        </div>
+        </Box>
       </Link>
       <Slider {...settings}>
         {tileData.map((tile, index) => (
-          <div key={index} className={classes.slide}>
+          <Box key={index} sx={{ paddingRight: '4px' }}>
             <Poster {...tile} />
-          </div>
+          </Box>
         ))}
       </Slider>
-    </div>
+    </Box>
   );
 };
 
-export default withStyles(styles)(HorizontalSlider);
+export default HorizontalSlider;

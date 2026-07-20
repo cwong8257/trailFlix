@@ -1,23 +1,25 @@
-import React from 'react';
-import { withTMDBConfig } from '../../context/TMDBConfigContext';
-import compose from 'recompose/compose';
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
+import React, { useState, useEffect } from 'react';
+import { useTMDBConfig } from '../../context/TMDBConfigContext';
+import Box from '@mui/material/Box';
 import FullWidthGrid from './FullWidthGrid';
-import CircularIndeterminate from './CircularIndeterminate';
 
-const styles = theme => ({
-  root: {
-    padding: '2rem',
-    backgroundColor: '#141414'
-  }
-});
+const MovieList = ({ getMovie }) => {
+  const [movies, setMovies] = useState(null);
+  const config = useTMDBConfig();
 
-class MovieList extends React.Component {
-  state = {};
+  useEffect(() => {
+    let isMounted = true;
+    getMovie().then(response => {
+      if (isMounted) {
+        setMovies(response.results);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [getMovie]);
 
-  moviesToTileData = movie => {
-    const { config } = this.props;
+  const moviesToTileData = movie => {
     const { backdrop_path, title, id } = movie;
     const img = config.images.secure_base_url + config.images.backdrop_sizes[1] + backdrop_path;
 
@@ -28,34 +30,16 @@ class MovieList extends React.Component {
     };
   };
 
-  componentDidMount() {
-    const { getMovie } = this.props;
-    getMovie().then(response => {
-      const movies = response.results;
-      this.setState(() => ({ movies }));
-    });
+  if (movies && config) {
+    const tileData = movies.map(moviesToTileData);
+
+    return (
+      <Box sx={{ padding: '2rem', backgroundColor: '#141414' }}>
+        <FullWidthGrid tileData={tileData} />
+      </Box>
+    );
   }
+  return <Box />;
+};
 
-  render() {
-    const { classes, config } = this.props;
-    const { movies } = this.state;
-
-    if (movies) {
-      const tileData = movies.map(this.moviesToTileData);
-
-      return (
-        <div className={classes.root}>
-          <FullWidthGrid tileData={tileData} />
-        </div>
-      );
-    }
-    return <div />;
-  }
-}
-
-export default compose(
-  withStyles(styles, {
-    name: 'MovieList'
-  }),
-  withTMDBConfig
-)(MovieList);
+export default MovieList;

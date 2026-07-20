@@ -1,12 +1,6 @@
 import React from 'react';
 import YouTube from 'react-youtube';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 56.25vw;
-  max-height: 50rem;
-`;
+import Box from '@mui/material/Box';
 
 const opts = {
   width: '100%',
@@ -20,8 +14,10 @@ const opts = {
   }
 };
 
-export default ({ videoId }) => (
-  <Wrapper>
+const Video = ({ videoId }) => (
+  <Box sx={{ width: '100%', height: '56.25vw', maxHeight: '50rem' }}>
     <YouTube videoId={videoId} opts={opts} />
-  </Wrapper>
+  </Box>
 );
+
+export default Video;

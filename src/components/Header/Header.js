@@ -1,8 +1,7 @@
-import React from 'react';
-import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Hidden from 'material-ui/Hidden';
+import React, { useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
 
 import HeaderLogo from './HeaderLogo';
 import HeaderNavigation from './HeaderNavigation';
@@ -10,53 +9,36 @@ import HeaderSearchBar from './HeaderSearchBar';
 import HeaderSearchIcon from './HeaderSearchIcon';
 import HeaderNavBar from './HeaderNavBar';
 
-const styles = theme => ({
-  root: {
-    color: '#e5e5e5'
-  },
-  appBar: {
-    backgroundColor: '#141414',
-    height: '4rem'
-  }
-});
+const Header = () => {
+  const [searchFocused, setSearchFocused] = useState(false);
 
-class Header extends React.Component {
-  state = {
-    searchFocused: false
+  const handleShowSearchBar = () => {
+    setSearchFocused(prev => !prev);
   };
 
-  handleShowSearchBar = () => {
-    this.setState(prevState => ({ searchFocused: !prevState.searchFocused }));
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { searchFocused } = this.state;
-
-    return (
-      <div className={classes.root}>
-        <AppBar className={classes.appBar} position="fixed" color="inherit">
-          <Toolbar>
-            <Hidden smDown>
+  return (
+    <Box sx={{ color: '#e5e5e5' }}>
+      <AppBar sx={{ backgroundColor: '#141414', height: '4rem' }} position="fixed" color="inherit">
+        <Toolbar>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+            <HeaderLogo />
+            <HeaderNavBar />
+          </Box>
+          {!searchFocused && (
+            <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
               <HeaderLogo />
-              <HeaderNavBar />
-            </Hidden>
-            {!searchFocused && (
-              <Hidden mdUp>
-                <HeaderLogo />
-                <HeaderNavigation />
-              </Hidden>
-            )}
-            {searchFocused ? (
-              <HeaderSearchBar onFocusChange={this.handleShowSearchBar} />
-            ) : (
-              <HeaderSearchIcon onClick={this.handleShowSearchBar} />
-            )}
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
-}
+              <HeaderNavigation />
+            </Box>
+          )}
+          {searchFocused ? (
+            <HeaderSearchBar onFocusChange={handleShowSearchBar} />
+          ) : (
+            <HeaderSearchIcon onClick={handleShowSearchBar} />
+          )}
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+};
 
-export default withStyles(styles)(Header);
+export default Header;

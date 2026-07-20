@@ -1,30 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import { ListItemAvatar, ListItem, ListItemText } from 'material-ui/List';
-import { withStyles } from 'material-ui/styles';
+import { Link as RouterLink } from 'react-router-dom';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import { ListItem, ListItemText } from '@mui/material';
+import Box from '@mui/material/Box';
 
-const styles = theme => ({
-  listItem: {
-    alignItems: 'flex-start',
-    overflow: 'hidden',
-    paddingTop: '0'
-  },
-  link: {
-    textDecoration: 'none'
-  },
-  img: {
-    width: '100%'
-  }
-});
-
-const VerticalListItem = ({ classes, id, img, title, primary, secondary }) => (
-  <Link className={classes.link} to={`/movie/${id}`}>
-    <ListItem classes={{ root: classes.listItem }} disableGutters>
+const VerticalListItem = ({ id, img, title, primary, secondary }) => (
+  <Link
+    component={RouterLink}
+    to={`/movie/${id}`}
+    underline="none"
+    sx={{ display: 'block' }}
+  >
+    <ListItem
+      sx={{
+        alignItems: 'flex-start',
+        overflow: 'hidden',
+        paddingTop: 0
+      }}
+      disableGutters
+    >
       <Grid container>
         <Grid item xs={5}>
-          <img className={classes.img} src={img} alt={title} />
+          <Box
+            component="img"
+            src={img}
+            alt={title}
+            sx={{ width: '100%' }}
+          />
         </Grid>
         <Grid item xs={7}>
           <ListItemText primary={primary} secondary={secondary} />
@@ -34,4 +37,4 @@ const VerticalListItem = ({ classes, id, img, title, primary, secondary }) => (
   </Link>
 );
 
-export default withStyles(styles)(VerticalListItem);
+export default VerticalListItem;

@@ -1,27 +1,16 @@
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
-import { Link } from 'react-router-dom';
-import IconButton from 'material-ui/IconButton';
-import Icon from 'material-ui/Icon';
+import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
+import Box from '@mui/material/Box';
 
-const styles = theme => ({
-  root: {
-    float: 'right'
-  },
-  icon: {
-    color: 'inherit'
-  }
-});
-
-const HeaderSearchIcon = props => {
-  const { classes, onClick } = props;
+const HeaderSearchIcon = ({ onClick }) => {
   return (
-    <div className={classes.root}>
-      <IconButton color="inherit" aria-label="Search" onClick={onClick}>
-        <Icon className={classes.icon}>search</Icon>
+    <Box sx={{ float: 'right' }}>
+      <IconButton color="inherit" aria-label="Search" onClick={onClick} size="large">
+        <Icon sx={{ color: 'inherit' }}>search</Icon>
       </IconButton>
-    </div>
+    </Box>
   );
 };
 
-export default withStyles(styles)(HeaderSearchIcon);
+export default HeaderSearchIcon;

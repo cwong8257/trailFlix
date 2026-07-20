@@ -1,26 +1,35 @@
-import React from 'react';
-import { withTMDBConfig } from '../../context/TMDBConfigContext';
-import compose from 'recompose/compose';
-import { withStyles } from 'material-ui/styles';
+import React, { useState, useEffect } from 'react';
+import { useTMDBConfig } from '../../context/TMDBConfigContext';
+import Box from '@mui/material/Box';
 import moment from 'moment';
 
 import HorizontalSlider from '../Apps/HorizontalSlider';
 import Loading from '../Apps/Loading';
 import { getPopular, getUpcoming, getTopRated } from '../../tmdb/tmdb';
 
-const styles = theme => ({
-  root: {
-    padding: '6rem 2rem 2rem 2rem',
-    backgroundColor: '#141414',
-    color: '#e5e5e5'
-  }
-});
+const HomePage = () => {
+  const [data, setData] = useState({
+    mostPopular: null,
+    upcoming: null,
+    topRated: null
+  });
+  const config = useTMDBConfig();
 
-class HomePage extends React.Component {
-  state = {};
+  useEffect(() => {
+    let isMounted = true;
+    Promise.all([getPopular(), getUpcoming(), getTopRated()]).then(
+      ([mostPopular, upcoming, topRated]) => {
+        if (isMounted) {
+          setData({ mostPopular, upcoming, topRated });
+        }
+      }
+    );
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
-  mapMovies = ({ poster_path, title, id, release_date, overview }) => {
-    const { config } = this.props;
+  const mapMovies = ({ poster_path, title, id, release_date, overview }) => {
     const img = config.images.secure_base_url + config.images.poster_sizes[3] + poster_path;
     const year = release_date && moment(release_date).format('YYYY');
 
@@ -33,39 +42,28 @@ class HomePage extends React.Component {
     };
   };
 
-  async componentDidMount() {
-    const [mostPopular, upcoming, topRated] = await Promise.all([
-      getPopular(),
-      getUpcoming(),
-      getTopRated()
-    ]);
-    this.setState(() => ({ mostPopular, upcoming, topRated }));
+  const { mostPopular, upcoming, topRated } = data;
+
+  if (mostPopular && upcoming && topRated && config) {
+    const mostPopularTileData = mostPopular.map(mapMovies);
+    const upcomingTileData = upcoming.map(mapMovies);
+    const topRatedTileData = topRated.map(mapMovies);
+
+    return (
+      <Box
+        sx={{
+          padding: '6rem 2rem 2rem 2rem',
+          backgroundColor: '#141414',
+          color: '#e5e5e5'
+        }}
+      >
+        <HorizontalSlider title="Most Popular" link="/most_popular" tileData={mostPopularTileData} />
+        <HorizontalSlider title="Upcoming" link="/upcoming" tileData={upcomingTileData} />
+        <HorizontalSlider title="Top Rated" link="/top_rated" tileData={topRatedTileData} />
+      </Box>
+    );
   }
+  return <Loading />;
+};
 
-  render() {
-    const { classes, config } = this.props;
-    const { mostPopular, upcoming, topRated } = this.state;
-
-    if (mostPopular && upcoming && topRated) {
-      const mostPopularTileData = mostPopular.map(this.mapMovies);
-      const upcomingTileData = upcoming.map(this.mapMovies);
-      const topRatedTileData = topRated.map(this.mapMovies);
-
-      return (
-        <div className={classes.root}>
-          <HorizontalSlider title="Most Popular" link="/most_popular" tileData={mostPopularTileData} />
-          <HorizontalSlider title="Upcoming" link="/upcoming" tileData={upcomingTileData} />
-          <HorizontalSlider title="Top Rated" link="/top_rated" tileData={topRatedTileData} />
-        </div>
-      );
-    }
-    return <Loading />;
-  }
-}
-
-export default compose(
-  withStyles(styles, {
-    name: 'HomePage'
-  }),
-  withTMDBConfig
-)(HomePage);
+export default HomePage;

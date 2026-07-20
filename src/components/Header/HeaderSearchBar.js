@@ -1,29 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
-import { InputLabel, InputAdornment } from 'material-ui/Input';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Box from '@mui/material/Box';
 
 import HeaderSearchIcon from './HeaderSearchIcon';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: '20rem'
-  },
-  textFieldRoot: {
-    color: 'inherit',
-    backgroundColor: 'inherit',
-    border: '1px solid #ced4da',
-    padding: '0.1rem'
-  },
-  textFieldInput: {
-    color: 'inherit',
-    fontSize: '1rem'
-  }
-});
-
-const HeaderSearchBar = ({ classes, onFocusChange }) => {
+const HeaderSearchBar = ({ onFocusChange }) => {
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
@@ -38,7 +21,7 @@ const HeaderSearchBar = ({ classes, onFocusChange }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <Box sx={{ width: '100%', maxWidth: '20rem' }}>
       <form onSubmit={onSubmit}>
         <TextField
           fullWidth
@@ -48,24 +31,31 @@ const HeaderSearchBar = ({ classes, onFocusChange }) => {
           value={search}
           onBlur={onFocusChange}
           onChange={onSearchChange}
+          variant="standard"
           InputProps={{
             disableUnderline: true,
-            classes: {
-              root: classes.textFieldRoot,
-              input: classes.textFieldInput
-            },
             startAdornment: (
               <InputAdornment position="start">
                 <HeaderSearchIcon />
               </InputAdornment>
             )
           }}
+          sx={{
+            '& .MuiInputBase-root': {
+              color: 'inherit',
+              backgroundColor: 'inherit',
+              border: '1px solid #ced4da',
+              padding: '0.1rem'
+            },
+            '& .MuiInputBase-input': {
+              color: 'inherit',
+              fontSize: '1rem'
+            }
+          }}
         />
       </form>
-    </div>
+    </Box>
   );
 };
 
-export default withStyles(styles)(HeaderSearchBar);
-
-
+export default HeaderSearchBar;
