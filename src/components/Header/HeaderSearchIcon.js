@@ -1,8 +1,8 @@
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@mui/styles/withStyles';
 import { Link } from 'react-router-dom';
-import IconButton from 'material-ui/IconButton';
-import Icon from 'material-ui/Icon';
+import IconButton from '@mui/material/IconButton';
+import Icon from '@mui/material/Icon';
 
 const styles = theme => ({
   root: {
@@ -17,7 +17,7 @@ const HeaderSearchIcon = props => {
   const { classes, onClick } = props;
   return (
     <div className={classes.root}>
-      <IconButton color="inherit" aria-label="Search" onClick={onClick}>
+      <IconButton color="inherit" aria-label="Search" onClick={onClick} size="large">
         <Icon className={classes.icon}>search</Icon>
       </IconButton>
     </div>

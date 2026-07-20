@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
-import { InputLabel, InputAdornment } from 'material-ui/Input';
+import withStyles from '@mui/styles/withStyles';
+import TextField from '@mui/material/TextField';
+import { InputLabel, InputAdornment } from '@mui/material';
 
 import HeaderSearchIcon from './HeaderSearchIcon';
 

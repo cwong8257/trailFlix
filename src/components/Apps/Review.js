@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import Avatar from 'material-ui/Avatar';
-import { ListItemAvatar, ListItem, ListItemText } from 'material-ui/List';
-import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
-import Icon from 'material-ui/Icon';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import { ListItemAvatar, ListItem, ListItemText } from '@mui/material';
+import withStyles from '@mui/styles/withStyles';
+import Button from '@mui/material/Button';
+import Icon from '@mui/material/Icon';
 import classnames from 'classnames';
-import Collapse from 'material-ui/transitions/Collapse';
+import Collapse from '@mui/material/Collapse';
 
 const styles = theme => ({
   root: {

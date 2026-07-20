@@ -1,8 +1,8 @@
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Hidden from 'material-ui/Hidden';
+import withStyles from '@mui/styles/withStyles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box';
 
 import HeaderLogo from './HeaderLogo';
 import HeaderNavigation from './HeaderNavigation';
@@ -37,15 +37,15 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar className={classes.appBar} position="fixed" color="inherit">
           <Toolbar>
-            <Hidden smDown>
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
               <HeaderLogo />
               <HeaderNavBar />
-            </Hidden>
+            </Box>
             {!searchFocused && (
-              <Hidden mdUp>
+              <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
                 <HeaderLogo />
                 <HeaderNavigation />
-              </Hidden>
+              </Box>
             )}
             {searchFocused ? (
               <HeaderSearchBar onFocusChange={this.handleShowSearchBar} />

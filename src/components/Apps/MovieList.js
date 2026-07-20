@@ -1,8 +1,8 @@
 import React from 'react';
 import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
+import withStyles from '@mui/styles/withStyles';
+import Typography from '@mui/material/Typography';
 import FullWidthGrid from './FullWidthGrid';
 import CircularIndeterminate from './CircularIndeterminate';
 

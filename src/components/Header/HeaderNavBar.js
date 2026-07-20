@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
+import withStyles from '@mui/styles/withStyles';
+import Typography from '@mui/material/Typography';
 
 const styles = theme => ({
   root: {

@@ -1,6 +1,6 @@
 import React from 'react';
-import List from 'material-ui/List';
-import Typography from 'material-ui/Typography';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
 
 import Review from '../Apps/Review';
 

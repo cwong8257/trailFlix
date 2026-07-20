@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import { ListItemAvatar, ListItem, ListItemText } from 'material-ui/List';
-import { withStyles } from 'material-ui/styles';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { ListItemAvatar, ListItem, ListItemText } from '@mui/material';
+import withStyles from '@mui/styles/withStyles';
 
 const styles = theme => ({
   listItem: {

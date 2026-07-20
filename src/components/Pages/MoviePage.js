@@ -3,14 +3,14 @@ import { Link, useParams } from 'react-router-dom';
 import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
 import moment from 'moment';
-import Grid from 'material-ui/Grid';
-import { withStyles } from 'material-ui/styles';
-import Paper from 'material-ui/Paper';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
-import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
-import Hidden from 'material-ui/Hidden';
+import Grid from '@mui/material/Grid';
+import withStyles from '@mui/styles/withStyles';
+import Paper from '@mui/material/Paper';
+import Card, { CardActions, CardContent, CardMedia } from '@mui/material/Card';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import Box from '@mui/material/Box';
 
 import HorizontalSlider from '../Apps/HorizontalSlider';
 import Loading from '../Apps/Loading';
@@ -103,15 +103,15 @@ class MoviePageInner extends React.Component {
         <div className={classes.root}>
           {youtubeId && <Video videoId={youtubeId} />}
           <Card className={classes.card}>
-            <Grid container justify="center">
+            <Grid container justifyContent="center">
               <Grid item xs lg={10} xl={9}>
                 <Grid container direction="row">
                   <Grid item xs>
                     <CardContent>
                       <div className={classes.rating}>
-                        <Hidden xsDown>
+                        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                           <Rating rating={vote_average} count={vote_count} />
-                        </Hidden>
+                        </Box>
                       </div>
                       <Typography gutterBottom variant="headline" component="h2">
                         {title} {year && `(${year})`}
@@ -149,11 +149,11 @@ class MoviePageInner extends React.Component {
                         <ReviewsList reviews={reviews} />
                       </CardContent>
                     )}
-                    <Hidden smUp>
+                    <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                       <CardContent>
                         <Divider />
                       </CardContent>
-                    </Hidden>
+                    </Box>
                   </Grid>
                   <Grid item xs={12} sm={5} lg={4}>
                     <CardContent>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@mui/styles/withStyles';
 import moment from 'moment';
 
 import HorizontalSlider from '../Apps/HorizontalSlider';

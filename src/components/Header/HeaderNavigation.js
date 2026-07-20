@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import withStyles from '@mui/styles/withStyles';
+import Button from '@mui/material/Button';
+import { Menu, MenuItem } from '@mui/material';
 
 const styles = theme => ({
   root: {

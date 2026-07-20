@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
-import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList';
+import withStyles from '@mui/styles/withStyles';
+import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 
 const styles = theme => ({
   root: {
@@ -28,12 +28,12 @@ function SingleLineGridList(props) {
 
   return (
     <div className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
+      <ImageList className={classes.gridList} cols={2.5}>
         {tileData.map(tile => (
-          <GridListTile key={tile.id}>
+          <ImageListItem key={tile.id}>
             <img src={tile.img} alt={tile.title} />
             <Link to={`/movie/${tile.id}`} key={tile.id}>
-              <GridListTileBar
+              <ImageListItemBar
                 title={tile.title}
                 classes={{
                   root: classes.titleBar,
@@ -41,9 +41,9 @@ function SingleLineGridList(props) {
                 }}
               />
             </Link>
-          </GridListTile>
+          </ImageListItem>
         ))}
-      </GridList>
+      </ImageList>
     </div>
   );
 }

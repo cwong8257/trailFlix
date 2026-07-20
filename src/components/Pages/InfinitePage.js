@@ -3,8 +3,8 @@ import { withTMDBConfig } from '../../context/TMDBConfigContext';
 import compose from 'recompose/compose';
 import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
+import withStyles from '@mui/styles/withStyles';
+import Typography from '@mui/material/Typography';
 import qs from 'querystringify';
 
 import Loading from '../Apps/Loading';

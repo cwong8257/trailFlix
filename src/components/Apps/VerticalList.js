@@ -1,5 +1,5 @@
 import React from 'react';
-import List from 'material-ui/List';
+import List from '@mui/material/List';
 
 import VerticalListItem from '../Apps/VerticalListItem';
 

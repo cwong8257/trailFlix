@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Typography from 'material-ui/Typography';
-import Grid from 'material-ui/Grid';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
 
 const Tile = styled.div`
   display: block;

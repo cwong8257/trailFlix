@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
-import Typography from 'material-ui/Typography';
+import Typography from '@mui/material/Typography';
 import { keyframes } from 'styled-components';
-import { withStyles } from 'material-ui/styles';
+import withStyles from '@mui/styles/withStyles';
 
 import Poster from './Poster';
 
