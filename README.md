@@ -36,6 +36,23 @@ Movie pages also have a list of collapsed reviews and similar movies on the side
 
 ![Reviews and Similar](src/assets/img/reviews_similar.png)
 
+## Getting Started
+
+1. **Clone the repository**
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Configure Environment Variables**:
+   Copy the example environment file to `.env.development` and replace the placeholder with your TMDB API key:
+   ```bash
+   cp .env.example .env.development
+   ```
+4. **Run the Development Server**:
+   ```bash
+   npm run dev
+   ```
+
 ### Built with
 
 * [React](https://reactjs.org/) - JavsScript library for building user interfaces.
