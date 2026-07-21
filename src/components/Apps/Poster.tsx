@@ -33,7 +33,16 @@ const TextBox = styled.div`
   }
 `;
 
-const Poster = ({ classes, id, img, title, overview, year }) => {
+interface PosterProps {
+  classes?: any;
+  id: string | number;
+  img: string;
+  title: string;
+  overview: string;
+  year: string;
+}
+
+const Poster: React.FC<PosterProps> = ({ classes, id, img, title, overview, year }) => {
   return (
     <Tile>
       <Link to={`/movie/${id}`}>
