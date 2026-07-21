@@ -16,7 +16,7 @@ const opts = {
 
 const Video = ({ videoId }) => (
   <Box sx={{ width: '100%', height: '56.25vw', maxHeight: '50rem' }}>
-    <YouTube videoId={videoId} opts={opts} />
+    <YouTube videoId={videoId} opts={opts} style={{ width: '100%', height: '100%' }} />
   </Box>
 );
 
