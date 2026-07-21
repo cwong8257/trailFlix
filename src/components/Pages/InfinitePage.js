@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTMDBConfig } from '../../context/TMDBConfigContext';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import moment from 'moment';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -10,6 +10,7 @@ import FullWidthGrid from '../Apps/FullWidthGrid';
 
 const InfinitePage = ({ loadMore, query, title }) => {
   const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const config = useTMDBConfig();
 
@@ -28,12 +29,13 @@ const InfinitePage = ({ loadMore, query, title }) => {
 
   const filterMovies = ({ poster_path }) => poster_path;
 
-  const loadItems = async page => {
+  const loadItems = async () => {
     const newMovies = await loadMore(page, query);
     const hasMore = page !== 1000 && newMovies.length > 0;
 
     if (hasMore) {
       setMovies(prev => [...prev, ...newMovies]);
+      setPage(prev => prev + 1);
       setHasMoreItems(hasMore);
     } else {
       setHasMoreItems(hasMore);
@@ -42,6 +44,7 @@ const InfinitePage = ({ loadMore, query, title }) => {
 
   useEffect(() => {
     setMovies([]);
+    setPage(1);
     setHasMoreItems(true);
   }, [query]);
 
@@ -59,8 +62,8 @@ const InfinitePage = ({ loadMore, query, title }) => {
     >
       <InfiniteScroll
         key={query}
-        pageStart={0}
-        loadMore={loadItems}
+        dataLength={movies.length}
+        next={loadItems}
         hasMore={hasMoreItems}
         loader={<Loading key="3" />}
       >

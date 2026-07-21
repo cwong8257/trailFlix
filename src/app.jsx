@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -18,4 +18,6 @@ const jsx = (
   </div>
 );
 
-ReactDOM.render(jsx, document.getElementById('app'));
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render(jsx);
