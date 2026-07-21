@@ -5,7 +5,15 @@ import Link from '@mui/material/Link';
 import { ListItem, ListItemText } from '@mui/material';
 import Box from '@mui/material/Box';
 
-const VerticalListItem = ({ id, img, title, primary, secondary }) => (
+interface VerticalListItemProps {
+  id: string | number;
+  img: string;
+  title: string;
+  primary: React.ReactNode;
+  secondary: React.ReactNode;
+}
+
+const VerticalListItem: React.FC<VerticalListItemProps> = ({ id, img, title, primary, secondary }) => (
   <Link
     component={RouterLink}
     to={`/movie/${id}`}

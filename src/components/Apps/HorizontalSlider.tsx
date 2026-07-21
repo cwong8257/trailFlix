@@ -19,7 +19,14 @@ const unhide = keyframes`
   }
 `;
 
-const HorizontalSlider = ({ color, link, tileData, title }) => {
+interface HorizontalSliderProps {
+  color?: string;
+  link: string;
+  tileData: any[];
+  title: string;
+}
+
+const HorizontalSlider: React.FC<HorizontalSliderProps> = ({ color, link, tileData, title }) => {
   const settings = {
     infinite: true,
     slidesToScroll: 6,

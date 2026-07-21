@@ -5,7 +5,18 @@ import Box from '@mui/material/Box';
 
 import Review from '../Apps/Review';
 
-const ReviewsList = ({ reviews }) => {
+interface ReviewData {
+  id: string;
+  author: string;
+  content: string;
+  url: string;
+}
+
+interface ReviewsListProps {
+  reviews: ReviewData[];
+}
+
+const ReviewsList: React.FC<ReviewsListProps> = ({ reviews }) => {
   const length = reviews.length;
   const word = length === 1 ? 'Review' : 'Reviews';
   return (

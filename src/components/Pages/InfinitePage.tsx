@@ -8,7 +8,13 @@ import Box from '@mui/material/Box';
 import Loading from '../Apps/Loading';
 import FullWidthGrid from '../Apps/FullWidthGrid';
 
-const InfinitePage = ({ loadMore, query, title }) => {
+interface InfinitePageProps {
+  loadMore: (page: number, query?: string) => Promise<any[]>;
+  query?: string;
+  title: string;
+}
+
+const InfinitePage: React.FC<InfinitePageProps> = ({ loadMore, query, title }) => {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);

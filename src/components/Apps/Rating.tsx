@@ -18,7 +18,7 @@ export default ({ rating, count }) => {
         <Stack spacing={0}>
           <Grid container alignItems="flex-end" spacing={0}>
             <Grid item>
-              <Typography variant="headline" component="p">
+              <Typography variant="h5" component="p">
                 {rating}
               </Typography>
             </Grid>

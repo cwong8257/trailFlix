@@ -7,7 +7,13 @@ import Icon from '@mui/material/Icon';
 import Collapse from '@mui/material/Collapse';
 import Box from '@mui/material/Box';
 
-const Review = ({ author, content, url }) => {
+interface ReviewProps {
+  author: string;
+  content: string;
+  url: string;
+}
+
+const Review: React.FC<ReviewProps> = ({ author, content, url }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {

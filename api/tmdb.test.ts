@@ -95,7 +95,7 @@ describe('api/tmdb handler', () => {
     );
 
     // Verify upstream URL
-    const calledUrl = globalThis.fetch.mock.calls[0][0];
+    const calledUrl = (globalThis.fetch as any).mock.calls[0][0];
     expect(calledUrl).toContain('https://api.themoviedb.org/3/movie/popular');
     expect(calledUrl).toContain('api_key=test-key');
     expect(calledUrl).toContain('language=en-US');
