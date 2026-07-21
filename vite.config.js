@@ -90,18 +90,6 @@ function vercelApiPlugin() {
 
 export default defineConfig({
   plugins: [react(), vercelApiPlugin()],
-  esbuild: {
-    loader: 'jsx',
-    include: /src\/.*\.[jt]sx?$/,
-    exclude: [],
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      loader: {
-        '.js': 'jsx',
-      },
-    },
-  },
   define: {
     global: 'window',
   },

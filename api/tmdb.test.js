@@ -56,11 +56,13 @@ describe('api/tmdb handler', () => {
 
   test('returns 500 when TMDB_API_KEY is missing', async () => {
     delete process.env.TMDB_API_KEY;
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const res = mockRes();
     await handler(mockReq({ query: { path: '/movie/popular' } }), res);
 
     expect(res._status).toBe(500);
     expect(res._json).toEqual({ error: 'Server misconfiguration' });
+    consoleSpy.mockRestore();
   });
 
   test('returns 400 when path param is missing', async () => {
@@ -131,6 +133,7 @@ describe('api/tmdb handler', () => {
 
   test('returns 502 when fetch throws', async () => {
     process.env.TMDB_API_KEY = 'test-key';
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     globalThis.fetch = vi.fn().mockImplementation(() =>
       Promise.reject(new Error('network down')),
@@ -144,5 +147,6 @@ describe('api/tmdb handler', () => {
 
     expect(res._status).toBe(502);
     expect(res._json).toEqual({ error: 'Failed to reach TMDB' });
+    consoleSpy.mockRestore();
   });
 });
