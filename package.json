@@ -44,7 +44,7 @@
     "@vitejs/plugin-react": "^4.3.1",
     "cross-env": "5.0.5",
     "dotenv": "4.0.0",
-    "jest": "20.0.4",
+    "jest": "30.4.2",
     "typescript": "^5.5.4",
     "vite": "^5.4.0"
   }
