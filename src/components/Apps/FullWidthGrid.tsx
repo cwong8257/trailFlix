@@ -2,7 +2,19 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Poster from './Poster';
 
-const FullWidthGrid = ({ tileData }) => {
+interface GridTileData {
+  id: string | number;
+  img: string;
+  title: string;
+  overview: string;
+  year: string;
+}
+
+interface FullWidthGridProps {
+  tileData: GridTileData[];
+}
+
+const FullWidthGrid: React.FC<FullWidthGridProps> = ({ tileData }) => {
   return (
     <Grid container spacing={1}>
       {tileData.map((tile, index) => (

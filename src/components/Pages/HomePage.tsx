@@ -7,8 +7,16 @@ import HorizontalSlider from '../Apps/HorizontalSlider';
 import Loading from '../Apps/Loading';
 import { getPopular, getUpcoming, getTopRated } from '../../tmdb/tmdb';
 
+import { Movie } from '../../types/tmdb';
+
+interface HomeData {
+  mostPopular: Movie[] | null;
+  upcoming: Movie[] | null;
+  topRated: Movie[] | null;
+}
+
 const HomePage = () => {
-  const [data, setData] = useState({
+  const [data, setData] = useState<HomeData>({
     mostPopular: null,
     upcoming: null,
     topRated: null
@@ -29,8 +37,10 @@ const HomePage = () => {
     };
   }, []);
 
-  const mapMovies = ({ poster_path, title, id, release_date, overview }) => {
-    const img = config.images.secure_base_url + config.images.poster_sizes[3] + poster_path;
+  const mapMovies = ({ poster_path, title, id, release_date, overview }: Movie) => {
+    const secureBaseUrl = config?.images?.secure_base_url || '';
+    const posterSize = config?.images?.poster_sizes?.[3] || 'w342';
+    const img = poster_path ? secureBaseUrl + posterSize + poster_path : '';
     const year = release_date && moment(release_date).format('YYYY');
 
     return {
@@ -38,7 +48,7 @@ const HomePage = () => {
       img,
       title,
       overview,
-      year
+      year: year || ''
     };
   };
 

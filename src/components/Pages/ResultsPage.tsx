@@ -7,8 +7,9 @@ import { getMovieList } from '../../tmdb/tmdb';
 
 const ResultsPage = () => {
   const location = useLocation();
-  const { search_query: query } = qs.parse(location.search);
-  const title = `Results for "${query}"`;
+  const parsed = qs.parse(location.search) as { search_query?: string };
+  const query = parsed.search_query;
+  const title = `Results for "${query || ''}"`;
 
   return (
     <div>

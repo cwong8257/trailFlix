@@ -14,9 +14,11 @@
  * query parameters are forwarded to TMDB as-is.
  */
 
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+
 const TMDB_BASE = 'https://api.themoviedb.org/3';
 
-export default async function handler(req, res) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Only allow GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -30,8 +32,8 @@ export default async function handler(req, res) {
 
   const { path, ...params } = req.query;
 
-  if (!path) {
-    return res.status(400).json({ error: 'Missing required "path" query parameter' });
+  if (!path || typeof path !== 'string') {
+    return res.status(400).json({ error: 'Missing or invalid required "path" query parameter' });
   }
 
   // Build the upstream TMDB query string
@@ -42,7 +44,11 @@ export default async function handler(req, res) {
 
   // Forward remaining query params
   Object.keys(params).forEach(function(key) {
-    queryParts.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+    const val = params[key];
+    if (val !== undefined) {
+      const valStr = Array.isArray(val) ? val.join(',') : val;
+      queryParts.push(encodeURIComponent(key) + '=' + encodeURIComponent(valStr));
+    }
   });
 
   const url = TMDB_BASE + path + '?' + queryParts.join('&');

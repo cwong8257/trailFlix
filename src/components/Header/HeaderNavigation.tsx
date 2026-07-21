@@ -6,9 +6,9 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 
 const HeaderNavigation = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const handleClick = event => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -19,7 +19,7 @@ const HeaderNavigation = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Button
-        aria-owns={anchorEl ? 'header-navigation' : null}
+        aria-owns={anchorEl ? 'header-navigation' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
         color="inherit"

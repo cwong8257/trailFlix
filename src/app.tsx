@@ -18,6 +18,6 @@ const jsx = (
   </div>
 );
 
-const container = document.getElementById('app');
+const container = document.getElementById('app')!;
 const root = createRoot(container);
 root.render(jsx);

@@ -8,21 +8,25 @@ import Box from '@mui/material/Box';
 import Loading from '../Apps/Loading';
 import FullWidthGrid from '../Apps/FullWidthGrid';
 
+import { Movie } from '../../types/tmdb';
+
 interface InfinitePageProps {
-  loadMore: (page: number, query?: string) => Promise<any[]>;
+  loadMore: (page: number, query?: string) => Promise<Movie[]>;
   query?: string;
   title: string;
 }
 
 const InfinitePage: React.FC<InfinitePageProps> = ({ loadMore, query, title }) => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);
   const [loading, setLoading] = useState(false);
   const config = useTMDBConfig();
 
-  const mapMovies = ({ poster_path, title, id, release_date, overview }) => {
-    const img = config.images.secure_base_url + config.images.poster_sizes[3] + poster_path;
+  const mapMovies = ({ poster_path, title, id, release_date, overview }: Movie) => {
+    const secureBaseUrl = config?.images?.secure_base_url || '';
+    const posterSize = config?.images?.poster_sizes?.[3] || 'w342';
+    const img = poster_path ? secureBaseUrl + posterSize + poster_path : '';
     const year = release_date && moment(release_date).format('YYYY');
 
     return {
@@ -30,11 +34,11 @@ const InfinitePage: React.FC<InfinitePageProps> = ({ loadMore, query, title }) =
       img,
       title,
       overview,
-      year
+      year: year || ''
     };
   };
 
-  const filterMovies = ({ poster_path }) => poster_path;
+  const filterMovies = ({ poster_path }: Movie) => poster_path;
 
   const loadItems = async () => {
     if (loading) return;

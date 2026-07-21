@@ -18,22 +18,35 @@ import { getMovieDetails, getMovieTrailer, getSimilar, getMovieReviews } from '.
 import VerticalList from '../Apps/VerticalList';
 import ReviewsList from '../Apps/ReviewsList';
 
+import { Movie, Review } from '../../types/tmdb';
+
+interface ExtendedMovie extends Movie {
+  imdb_id?: string;
+  homepage?: string;
+  youtubeId: string | undefined;
+  similar: Movie[];
+  reviews: Review[];
+}
+
 const MoviePage = () => {
   const { id } = useParams();
   const config = useTMDBConfig();
-  const [movieData, setMovieData] = useState(null);
+  const [movieData, setMovieData] = useState<ExtendedMovie | null>(null);
 
-  const filterMovies = ({ backdrop_path }) => backdrop_path;
+  const filterMovies = ({ backdrop_path }: Movie) => backdrop_path;
 
-  const mapMovies = ({ backdrop_path, title: primary, id, release_date }) => {
-    const img = config.images.secure_base_url + config.images.backdrop_sizes[0] + backdrop_path;
+  const mapMovies = ({ backdrop_path, title, id, release_date }: Movie) => {
+    const secureBaseUrl = config?.images?.secure_base_url || '';
+    const backdropSize = config?.images?.backdrop_sizes?.[0] || 'w300';
+    const img = backdrop_path ? secureBaseUrl + backdropSize + backdrop_path : '';
     const secondary = release_date && moment(release_date).format('YYYY');
 
     return {
       id,
       img,
-      primary,
-      secondary
+      title,
+      primary: title,
+      secondary: secondary || ''
     };
   };
 
@@ -41,7 +54,8 @@ const MoviePage = () => {
     let isMounted = true;
     setMovieData(null); // Show loading when switching movies
 
-    const loadAllData = async (movieId) => {
+    const loadAllData = async (movieId: string | undefined) => {
+      if (!movieId) return;
       try {
         const [movie, youtubeId, similar, reviews] = await Promise.all([
           getMovieDetails(movieId),

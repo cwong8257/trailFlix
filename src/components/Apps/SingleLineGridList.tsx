@@ -4,7 +4,17 @@ import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
-function SingleLineGridList({ tileData }) {
+interface SingleLineGridTile {
+  id: string | number;
+  img: string;
+  title: string;
+}
+
+interface SingleLineGridListProps {
+  tileData: SingleLineGridTile[];
+}
+
+function SingleLineGridList({ tileData }: SingleLineGridListProps) {
   return (
     <Box
       sx={{

@@ -7,19 +7,19 @@
  */
 
 import { vi } from 'vitest';
-import * as tmdb from './tmdb.js';
+import * as tmdb from './tmdb';
 
 var mockFetch = vi.fn();
-globalThis.fetch = mockFetch;
+globalThis.fetch = (mockFetch as any);
 
-function resolve(data) {
+function resolve(data: any) {
   mockFetch.mockImplementation(function() {
     return Promise.resolve({
       ok: true,
       json: function() {
         return Promise.resolve(data.data);
       },
-    });
+    } as any);
   });
 }
 

@@ -5,7 +5,12 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Icon from '@mui/material/Icon';
 
-export default ({ rating, count }) => {
+interface RatingProps {
+  rating?: number;
+  count?: number;
+}
+
+export default ({ rating = 0, count = 0 }: RatingProps) => {
   const word = count === 1 ? 'vote' : 'votes';
   return (
     <Grid container alignItems="center" spacing={0}>

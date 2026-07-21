@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getConfiguration } from '../tmdb/tmdb';
+import { TMDBConfig } from '../types/tmdb';
 
-const TMDBConfigContext = createContext(null);
+const TMDBConfigContext = createContext<TMDBConfig | null>(null);
 
-export const TMDBConfigProvider = ({ children }) => {
-  const [config, setConfig] = useState(null);
+export const TMDBConfigProvider = ({ children }: { children: React.ReactNode }) => {
+  const [config, setConfig] = useState<TMDBConfig | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,9 +44,11 @@ export const useTMDBConfig = () => {
   return context;
 };
 
-export const withTMDBConfig = (WrappedComponent) => {
-  return function WithTMDBConfigWrapper(props) {
+export const withTMDBConfig = <P extends object>(
+  WrappedComponent: React.ComponentType<P & { config: TMDBConfig | null }>
+) => {
+  return function WithTMDBConfigWrapper(props: Omit<P, 'config'>) {
     const config = useTMDBConfig();
-    return <WrappedComponent {...props} config={config} />;
+    return <WrappedComponent {...(props as P)} config={config} />;
   };
 };

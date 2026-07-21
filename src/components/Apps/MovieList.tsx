@@ -3,8 +3,14 @@ import { useTMDBConfig } from '../../context/TMDBConfigContext';
 import Box from '@mui/material/Box';
 import FullWidthGrid from './FullWidthGrid';
 
-const MovieList = ({ getMovie }) => {
-  const [movies, setMovies] = useState(null);
+import { Movie } from '../../types/tmdb';
+
+interface MovieListProps {
+  getMovie: () => Promise<{ results: Movie[] }>;
+}
+
+const MovieList = ({ getMovie }: MovieListProps) => {
+  const [movies, setMovies] = useState<Movie[] | null>(null);
   const config = useTMDBConfig();
 
   useEffect(() => {
@@ -19,14 +25,18 @@ const MovieList = ({ getMovie }) => {
     };
   }, [getMovie]);
 
-  const moviesToTileData = movie => {
-    const { backdrop_path, title, id } = movie;
-    const img = config.images.secure_base_url + config.images.backdrop_sizes[1] + backdrop_path;
+  const moviesToTileData = (movie: Movie) => {
+    const { backdrop_path, title, id, overview, release_date } = movie;
+    const secureBaseUrl = config?.images?.secure_base_url || '';
+    const backdropSize = config?.images?.backdrop_sizes?.[1] || 'w300';
+    const img = backdrop_path ? secureBaseUrl + backdropSize + backdrop_path : '';
 
     return {
       img,
       title,
-      id
+      id,
+      overview: overview || '',
+      year: release_date || ''
     };
   };
 

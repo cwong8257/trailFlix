@@ -6,33 +6,33 @@
  * network calls.
  */
 
-import handler from './tmdb.js';
+import handler from './tmdb';
 import { vi } from 'vitest';
 
 // ── helpers ────────────────────────────────────────────────────
-function mockReq(overrides = {}) {
-  return { method: 'GET', query: {}, ...overrides };
+function mockReq(overrides: Record<string, any> = {}) {
+  return { method: 'GET', query: {}, ...overrides } as any;
 }
 
 function mockRes() {
   const res = {
-    _status: null,
-    _json: null,
-    _headers: {},
-    status(code) {
+    _status: null as number | null,
+    _json: null as any,
+    _headers: {} as Record<string, string>,
+    status(code: number) {
       res._status = code;
       return res;
     },
-    json(body) {
+    json(body: any) {
       res._json = body;
       return res;
     },
-    setHeader(key, value) {
+    setHeader(key: string, value: string) {
       res._headers[key] = value;
       return res;
     },
   };
-  return res;
+  return res as any;
 }
 
 // ── save / restore globals ─────────────────────────────────────
@@ -72,7 +72,7 @@ describe('api/tmdb handler', () => {
 
     expect(res._status).toBe(400);
     expect(res._json).toEqual({
-      error: 'Missing required "path" query parameter',
+      error: 'Missing or invalid required "path" query parameter',
     });
   });
 

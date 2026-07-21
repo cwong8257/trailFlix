@@ -6,15 +6,19 @@ import Box from '@mui/material/Box';
 
 import HeaderSearchIcon from './HeaderSearchIcon';
 
-const HeaderSearchBar = ({ onFocusChange }) => {
+interface HeaderSearchBarProps {
+  onFocusChange?: (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}
+
+const HeaderSearchBar = ({ onFocusChange }: HeaderSearchBarProps) => {
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
-  const onSearchChange = e => {
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setSearch(e.target.value);
   };
 
-  const onSubmit = e => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     navigate(`/results?search_query=${search}`);
     setSearch('');
