@@ -6,10 +6,11 @@
  * data shape, without hitting the network.
  */
 
-var mockFetch = jest.fn();
-globalThis.fetch = mockFetch;
+import { vi } from 'vitest';
+import * as tmdb from './tmdb.js';
 
-var tmdb = require('./tmdb.js');
+var mockFetch = vi.fn();
+globalThis.fetch = mockFetch;
 
 function resolve(data) {
   mockFetch.mockImplementation(function() {

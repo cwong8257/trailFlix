@@ -1,7 +1,0 @@
-{
-  "setupFiles": ["raf/polyfill"],
-  "testMatch": [
-    "<rootDir>/src/**/*.test.js",
-    "<rootDir>/api/**/*.test.js"
-  ]
-}

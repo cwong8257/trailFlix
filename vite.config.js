@@ -90,11 +90,6 @@ function vercelApiPlugin() {
 
 export default defineConfig({
   plugins: [react(), vercelApiPlugin()],
-  resolve: {
-    alias: {
-      'react-infinite-scroller': 'react-infinite-scroller/dist/InfiniteScroll.js',
-    },
-  },
   esbuild: {
     loader: 'jsx',
     include: /src\/.*\.[jt]sx?$/,
@@ -112,6 +107,11 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/tests/setup.js'],
   },
 });
 

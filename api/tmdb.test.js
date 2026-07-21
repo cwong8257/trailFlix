@@ -7,6 +7,7 @@
  */
 
 import handler from './tmdb.js';
+import { vi } from 'vitest';
 
 // ── helpers ────────────────────────────────────────────────────
 function mockReq(overrides = {}) {
@@ -77,7 +78,7 @@ describe('api/tmdb handler', () => {
     process.env.TMDB_API_KEY = 'test-key';
     const tmdbPayload = { results: [{ id: 1, title: 'Test Movie' }] };
 
-    globalThis.fetch = jest.fn().mockImplementation(() =>
+    globalThis.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
         ok: true,
         status: 200,
@@ -110,7 +111,7 @@ describe('api/tmdb handler', () => {
     process.env.TMDB_API_KEY = 'test-key';
     const errorPayload = { status_message: 'Not Found', status_code: 34 };
 
-    globalThis.fetch = jest.fn().mockImplementation(() =>
+    globalThis.fetch = vi.fn().mockImplementation(() =>
       Promise.resolve({
         ok: false,
         status: 404,
@@ -131,7 +132,7 @@ describe('api/tmdb handler', () => {
   test('returns 502 when fetch throws', async () => {
     process.env.TMDB_API_KEY = 'test-key';
 
-    globalThis.fetch = jest.fn().mockImplementation(() =>
+    globalThis.fetch = vi.fn().mockImplementation(() =>
       Promise.reject(new Error('network down')),
     );
 
