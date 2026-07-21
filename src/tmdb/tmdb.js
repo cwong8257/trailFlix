@@ -1,17 +1,22 @@
-import axios from 'axios';
-
-const tmdb = axios.create({
-  baseURL: '/api/tmdb',
-  timeout: 12000,
-});
-
 /**
- * Helper – builds the params object expected by the proxy.
+ * Helper – builds the query string expected by the proxy.
  * The proxy reads `path` to know which TMDB endpoint to hit,
  * and forwards everything else as query-string params.
  */
-const proxyGet = (path, extraParams = {}) =>
-  tmdb.get('', { params: { path, ...extraParams } });
+const proxyGet = async (path, extraParams = {}) => {
+  const params = new URLSearchParams();
+  params.append('path', path);
+  Object.keys(extraParams).forEach(key => {
+    params.append(key, extraParams[key]);
+  });
+
+  const response = await fetch(`/api/tmdb?${params.toString()}`);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const data = await response.json();
+  return { data };
+};
 
 export const getMovieDetails = async id => {
   const response = await proxyGet(`/movie/${id}`);

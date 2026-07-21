@@ -6,26 +6,24 @@
  * data shape, without hitting the network.
  */
 
-var mockGet = jest.fn();
-
-jest.mock('axios', function() {
-  return {
-    create: function() {
-      return { get: mockGet };
-    },
-  };
-});
+var mockFetch = jest.fn();
+globalThis.fetch = mockFetch;
 
 var tmdb = require('./tmdb.js');
 
 function resolve(data) {
-  mockGet.mockImplementation(function() {
-    return Promise.resolve(data);
+  mockFetch.mockImplementation(function() {
+    return Promise.resolve({
+      ok: true,
+      json: function() {
+        return Promise.resolve(data.data);
+      },
+    });
   });
 }
 
 beforeEach(function() {
-  mockGet.mockReset();
+  mockFetch.mockReset();
 });
 
 describe('TMDB proxy client', function() {
@@ -34,9 +32,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: movie });
 
     return tmdb.getMovieDetails(42).then(function(result) {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/movie/42' },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fmovie%2F42');
       expect(result).toEqual(movie);
     });
   });
@@ -45,9 +41,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: { results: ['a', 'b'] } });
 
     return tmdb.getPopular(3).then(function(result) {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/movie/popular', page: 3 },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fmovie%2Fpopular&page=3');
       expect(result).toEqual(['a', 'b']);
     });
   });
@@ -56,14 +50,9 @@ describe('TMDB proxy client', function() {
     resolve({ data: { results: [] } });
 
     return tmdb.getMovieList(1, 'inception').then(function() {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: {
-          path: '/search/movie',
-          include_adult: false,
-          page: 1,
-          query: 'inception',
-        },
-      });
+      expect(mockFetch).toHaveBeenCalledWith(
+        '/api/tmdb?path=%2Fsearch%2Fmovie&include_adult=false&page=1&query=inception'
+      );
     });
   });
 
@@ -85,9 +74,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: config });
 
     return tmdb.getConfiguration().then(function(result) {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/configuration' },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fconfiguration');
       expect(result).toEqual(config);
     });
   });
@@ -96,9 +83,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: { results: [] } });
 
     return tmdb.getNowPlaying().then(function() {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/movie/now_playing', page: 1 },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fmovie%2Fnow_playing&page=1');
     });
   });
 
@@ -106,9 +91,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: { results: [] } });
 
     return tmdb.getUpcoming(2).then(function() {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/movie/upcoming', page: 2 },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fmovie%2Fupcoming&page=2');
     });
   });
 
@@ -116,9 +99,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: { results: [] } });
 
     return tmdb.getTopRated(5).then(function() {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/movie/top_rated', page: 5 },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fmovie%2Ftop_rated&page=5');
     });
   });
 
@@ -126,9 +107,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: { results: [{ name: 'Actor' }] } });
 
     return tmdb.getMovieCredits(10).then(function(result) {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/movie/10/credits' },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fmovie%2F10%2Fcredits');
       expect(result).toEqual([{ name: 'Actor' }]);
     });
   });
@@ -137,9 +116,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: { results: [{ id: 2, title: 'Similar' }] } });
 
     return tmdb.getSimilar(1).then(function(result) {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/movie/1/similar' },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fmovie%2F1%2Fsimilar');
       expect(result).toEqual([{ id: 2, title: 'Similar' }]);
     });
   });
@@ -148,9 +125,7 @@ describe('TMDB proxy client', function() {
     resolve({ data: { results: [] } });
 
     return tmdb.getMovieReviews(5).then(function() {
-      expect(mockGet).toHaveBeenCalledWith('', {
-        params: { path: '/movie/5/reviews', page: 1 },
-      });
+      expect(mockFetch).toHaveBeenCalledWith('/api/tmdb?path=%2Fmovie%2F5%2Freviews&page=1');
     });
   });
 
