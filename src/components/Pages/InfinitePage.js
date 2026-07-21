@@ -12,6 +12,7 @@ const InfinitePage = ({ loadMore, query, title }) => {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMoreItems, setHasMoreItems] = useState(true);
+  const [loading, setLoading] = useState(false);
   const config = useTMDBConfig();
 
   const mapMovies = ({ poster_path, title, id, release_date, overview }) => {
@@ -30,6 +31,8 @@ const InfinitePage = ({ loadMore, query, title }) => {
   const filterMovies = ({ poster_path }) => poster_path;
 
   const loadItems = async () => {
+    if (loading) return;
+    setLoading(true);
     const newMovies = await loadMore(page, query);
     const hasMore = page !== 1000 && newMovies.length > 0;
 
@@ -40,12 +43,31 @@ const InfinitePage = ({ loadMore, query, title }) => {
     } else {
       setHasMoreItems(hasMore);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    setMovies([]);
-    setPage(1);
-    setHasMoreItems(true);
+    let active = true;
+    const fetchInitial = async () => {
+      setLoading(true);
+      setMovies([]);
+      setHasMoreItems(true);
+      
+      const initialMovies = await loadMore(1, query);
+      if (!active) return;
+
+      const hasMore = initialMovies.length > 0;
+      setMovies(initialMovies);
+      setPage(2);
+      setHasMoreItems(hasMore);
+      setLoading(false);
+    };
+
+    fetchInitial();
+
+    return () => {
+      active = false;
+    };
   }, [query]);
 
   if (!config) return <Loading />;
